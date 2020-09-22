@@ -1,4 +1,4 @@
-# k8-electron-react
+# k8-proxy-desktop
 
 If you are working on this project via Upwork, see also our [Upwork Rules of Engagement](https://github.com/filetrust/Open-Source/blob/master/upwork/rules-of-engagement.md)
 
@@ -6,9 +6,7 @@ If you are working on this project via Upwork, see also our [Upwork Rules of Eng
 If you are newcomer, then please check [Glasswall newcomers checklist ](https://github.com/filetrust/Open-Source )
 
 ## Project Brief
-Objective: Create PoC of Desktop app using Electron and Gatsby” https://twitter.com/ascorbic/status/1301188327362703361?s=21
-
-This project is based on Electron, TypeScript and React( Will change it to Gatsby in next version). 
+Project to develop a desktop based applications that provides a single entry point to all K8 projects. Build with electron, react, it is aimed at providing a single window integration with GW git resources, file-drop, forensic-workbench, jupyter notebooks, and K8-* services.
 
 <h2> How to setup</h2> 
 <li>Clone the repo</li>
