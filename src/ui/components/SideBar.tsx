@@ -59,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
     active:{
         background:      '#ddd',
         width:           '100%'
+    },
+    navLink:{
+        float:          'left',
+        width:          '100%'
     }
   }));
   
@@ -70,7 +74,7 @@ function MainLayout (){
     return(
         <Paper>
             <MenuItem className={classes.menuItem}>
-                <NavLink to="/home" activeClassName={classes.active}>
+                <NavLink to="/home" activeClassName={classes.active} className={classes.navLink}>
                     <div className={classes.menuName}>
                         <div className={classes.leftImg}>
                             <img src={gitIcon} className={classes.icons}></img> 
@@ -82,7 +86,7 @@ function MainLayout (){
                 </NavLink>
             </MenuItem>
             <MenuItem className={classes.menuItem}>
-                <NavLink to="/fileDrop"  activeClassName={classes.active}>
+                <NavLink to="/fileDrop"  activeClassName={classes.active} className={classes.navLink}>
                     <div className={classes.menuName}>
                         <div className={classes.leftImg}>
                             <img src={FileDropIcon} className={classes.icons}></img>
@@ -94,7 +98,7 @@ function MainLayout (){
                 </NavLink>
             </MenuItem>
             <MenuItem className={classes.menuItem}>
-                <NavLink to="/dashboardK8" activeClassName={classes.active}>
+                <NavLink to="/dashboardK8" activeClassName={classes.active} className={classes.navLink}>
                 <div className={classes.menuName}> 
                     <div className={classes.leftImg}>                                
                     <img src={desktopApp} className={classes.icons}></img>
@@ -106,7 +110,7 @@ function MainLayout (){
                 </NavLink>
             </MenuItem>
             <MenuItem className={classes.menuItem}>
-                <NavLink to="/slackBot" activeClassName={classes.active}>
+                <NavLink to="/slackBot" activeClassName={classes.active} className={classes.navLink}>
                 <div className={classes.menuName}>
                     <div className={classes.leftImg}>     
                         <img src={Slack} className={classes.icons}></img>
@@ -118,7 +122,7 @@ function MainLayout (){
                 </NavLink>
             </MenuItem>
             <MenuItem className={classes.menuItem}>
-                <NavLink to="/fw" activeClassName={classes.active}>
+                <NavLink to="/fw" activeClassName={classes.active} className={classes.navLink}>
                 <div className={classes.menuName}>
                     <div className={classes.leftImg}>     
                         <img src={GWLogo} className={classes.icons}></img>

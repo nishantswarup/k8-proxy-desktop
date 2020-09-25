@@ -7,7 +7,7 @@ import WebIFrameView            from '../components/WebIFrameView'
 import { useState, useEffect }  from 'react';
 import Loader                   from '../components/Loader';
 
-
+/** Main view of the application to display all the targeted use cases */
 const useStyles = makeStyles((theme) => ({
      root:       {
          flexGrow:       1, 

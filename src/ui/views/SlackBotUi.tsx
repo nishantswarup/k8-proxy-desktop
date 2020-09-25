@@ -2,6 +2,7 @@ import * as React               from 'react';
 import { Container, Grid }      from '@material-ui/core';
 import { makeStyles }           from '@material-ui/core/styles';
 import      Header              from '../components/Header'
+import      GitRepo             from './FileDrop'
 import      Sidebar             from '../components/SideBar'
 
 /** Main view of the application to display all the targeted use cases */
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-function SlackBotUi (){
+function MainLayout (){
     const classes = useStyles(); 
     return(
         <div>     
@@ -35,7 +36,7 @@ function SlackBotUi (){
                         <Sidebar></Sidebar>
                     </Grid>
                     <Grid item xs={9} className={classes.gridItemRight}>
-                        <h2>TBD</h2>
+                        <GitRepo></GitRepo>
                     </Grid>
                 </Grid>
 
@@ -44,4 +45,4 @@ function SlackBotUi (){
     )
 }
 
-export default SlackBotUi;
+export default MainLayout;

@@ -1,6 +1,6 @@
-name: desktop-app-electron-gatsby-build-release
+name: build-release
 
-on: pull_request
+on: push
 
 jobs:
   release:
@@ -19,16 +19,28 @@ jobs:
         with:
           node-version: '12.x'
 
-      - name: Builds desktop-app-electron-gatsby-build-release
+      - name: Build-release Proxy Desktop app
         uses: samuelmeuli/action-electron-builder@v1
         with:
           github_token: ${{ secrets.github_token }}
 
-
-      - name: Uploads Build
+      - name: Upload artifact - Mac
+        if: startsWith(matrix.os, 'macOS')
         uses: actions/upload-artifact@v2
-        if: success()
         with:
-          name: desktop-app-electron-gatsby-release
-          path: |
-            dist/*
+          name: "k8-proxy-desktop.dmg"
+          path: dist/*.dmg
+
+      - name: Upload artifact - Windows
+        if: startsWith(matrix.os, 'Windows')
+        uses: actions/upload-artifact@v2
+        with:
+          name: "k8-proxy-desktop.exe"
+          path: dist/*.exe
+
+      - name: Upload artifact - Linux Snap
+        if: startsWith(matrix.os, 'Ubuntu')
+        uses: actions/upload-artifact@v2
+        with:
+          name: "k8-proxy-desktop.snap"
+          path: dist/*.snap

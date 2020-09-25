@@ -30,10 +30,13 @@ function ForensicWorkbench (){
     const [showLoader, setShowLoader] = useState(true);
   
     useEffect(() => {
-      setTimeout(() => {
-        setShowLoader(false);
-      },3000);
+        let loadingTime = process.platform == 'win32'? 5000:3000;
+        setTimeout(() => {
+            setShowLoader(false);
+        },loadingTime);
     }, []); 
+
+    console.log(process.platform);
 
     return(
         <div>     

@@ -8,7 +8,7 @@ const {
 const path          = require('path')
 const shell         = require('electron').shell
 const { dialog }    = require('electron')
-const dir           =  path.resolve(__dirname, `..`)
+const dir           = path.resolve(__dirname, `..`)
 
 
 // function makeTray(){
@@ -50,7 +50,7 @@ function createMenu(){
             label: 'K8-Proxy-Desktop',
             submenu: [
                 {
-                    label: 'Show Gatsby Desktop',
+                    label: 'Show Home',
                     click: openMainWindow,
                 },
                 {
@@ -64,9 +64,33 @@ function createMenu(){
                         detail: ` K8 Proxy desktop  applications that provides a single entry point to all K8 projects. Build with electron and react, it is aimed at providing a single window integration with GW git resources, file-drop, forensic-workbench, jupyter notebooks, and K8-* services.`,
                         buttons: [ `Ok`],
                         defaultId: 1,
-                        type: `question`,
+                        type: `info`,
                         })
                     },
+                },
+                {
+                    label:'View License',
+                    click() { 
+                        shell.openExternal('https://github.com/k8-proxy/k8-proxy-desktop/blob/master/LICENSE')
+                    } 
+                },
+                {
+                    label:'Check For Update',
+                    click: async (): Promise<void> => {
+                        const { response } = await dialog.showMessageBox({
+                        message: `Check For Update`,
+                        detail: `Soon will rollout this feature`,
+                        buttons: [ `Ok`],
+                        defaultId: 1,
+                        type: `info`,
+                        })
+                    },
+                },
+                {
+                    label:'Version 0.2.0'
+                },
+                {
+                    type:'separator'
                 },
                 {
                     label:'Report an issue',
@@ -81,7 +105,7 @@ function createMenu(){
                 {
                     label:'Quit',
                     click: async (): Promise<void> => {
-                        openMainWindow()
+                        //openMainWindow()
                         const { response } = await dialog.showMessageBox({
                         message: `Quit K8 Proxy Desktop?`,
                         detail: `This will stop all running sites`,
@@ -91,7 +115,7 @@ function createMenu(){
                         })
                 
                         if (response === 1) {
-                        app.quit()
+                            app.quit()
                         }
                     },
                 }
@@ -106,12 +130,10 @@ function createMenu(){
                     shell.openExternal(' https://github.com/k8-proxy/k8-proxy-desktop')
                 } ,
                 accelerator: 'CmdOrCtrl+Shift+L'
-                
             }
         ]
         }
     ]
-
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
 
@@ -124,7 +146,7 @@ function makeWindow(): typeof BrowserWindow {
     let window = new BrowserWindow({
         title: `k8 Proxy Desktop`,
         width: 1200,
-        height: 700,
+        height: 800,
         fullscreenable: false,
         icon:tray,
         trafficLightPosition: { x: 8, y: 18 },

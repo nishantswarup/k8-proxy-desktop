@@ -3,7 +3,7 @@ import { Container, Grid }          from '@material-ui/core';
 import { makeStyles }               from '@material-ui/core/styles';
 import      Header                  from '../components/Header'
 import      Sidebar                 from '../components/SideBar'
-import      GitRepos              from '../components/GitRepos'
+import      GitRepos                from '../components/GitRepos'
 
 /** Main view of the application to display all the targeted use cases */
 const useStyles = makeStyles((theme) => ({
