@@ -3,7 +3,7 @@ import builtInPrometheusStats     from '../images/built-in-prometheus-stats.svg'
 
 export default function Feature4() {
   return (
-    <div className="basic-3">
+    <div className="basic-5">
       <div className="fifth">
         <div className="container">
           <div className="row">

@@ -18,7 +18,7 @@ export default function Footer() {
               <h4>Resources</h4>
               <ul className="list-unstyled li-space-lg">
                 <li className="media">
-                  <i className="fas fa-square"></i>
+                  <i className="fa fa-angle-double-right"></i>
                   <div className="media-body">
                     <a
                       href="https://github.com/lensapp/lens#contributing"
@@ -29,7 +29,7 @@ export default function Footer() {
                   </div>
                 </li>
                 <li className="media">
-                  <i className="fas fa-square"></i>
+                  <i className="fa fa-angle-double-right"></i>
                   <div className="media-body">
                     <a
                       href="https://github.com/lensapp/lens"
@@ -40,7 +40,7 @@ export default function Footer() {
                   </div>
                 </li>
                 <li className="media">
-                  <i className="fas fa-square"></i>
+                  <i className="fa fa-angle-double-right"></i>
                   <div className="media-body">
                     <a href="http://k8slens.slack.com/" className="primary">
                       Community Slack
@@ -48,7 +48,7 @@ export default function Footer() {
                   </div>
                 </li>
                 <li className="media">
-                  <i className="fas fa-square"></i>
+                  <i className="fa fa-angle-double-right"></i>
                   <div className="media-body">
                     <a
                       href="https://github.com/lensapp/lensapp.github.io/blob/master/licenses/eula.md"
@@ -59,7 +59,7 @@ export default function Footer() {
                   </div>
                 </li>
                 <li className="media">
-                  <i className="fas fa-square"></i>
+                  <i className="fa fa-angle-double-right"></i>
                   <div className="media-body">
                     <a
                       href="https://www.mirantis.com/company/privacy-policy/"

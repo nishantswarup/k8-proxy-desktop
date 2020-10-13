@@ -1,16 +1,18 @@
 
-export const  MAC_BUILD = "https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.2.0/k8-proxy-desktop.dmg.zip"
-export const  WINDOWS_BUILD = "https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.2.0/k8-proxy-desktop.exe.zip"
-export const  LINUX_BUILD ="https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.2.0/k8-proxy-desktop.snap.zip"
 
+export const  MAC_BUILD = "https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.4.0/k8-proxy-desktop.dmg.zip"
+export const  WINDOWS_BUILD = "https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.4.0/k8-proxy-desktop.exe.zip"
+export const  LINUX_BUILD ="https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.4.0/k8-proxy-desktop.snap.zip"
+export const  RELEASE_URL = "https://github.com/rajmbcoderx/k8-electron-react/releases/";
 export let getOS = () =>{
-    var userAgent = window.navigator.userAgent,
-        platform = window.navigator.platform,
-        macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+
+    var userAgent        = window.navigator.userAgent,
+        platform         = window.navigator.platform,
+        macosPlatforms   = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
         windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
-        iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+        iosPlatforms     = ['iPhone', 'iPad', 'iPod'],
         os = null;
-  
+        
     if (macosPlatforms.indexOf(platform) !== -1) {
       os = 'Mac OS';
     } else if (iosPlatforms.indexOf(platform) !== -1) {

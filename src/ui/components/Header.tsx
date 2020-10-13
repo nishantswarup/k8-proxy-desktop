@@ -2,7 +2,8 @@ import * as React               from 'react';
 import { makeStyles }           from '@material-ui/core/styles';
 import ArrowBackIcon            from '@material-ui/icons/ArrowBack';
 import { Link}                  from 'react-router-dom'
-import  Logo                    from '../assets/images/logo.png'  
+import  Logo                    from '../assets/images/logo.png' 
+import Navbar                   from '../components/Navbar' 
 
 
 /** Main view of the application to display all the targeted use cases */
@@ -29,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
         float:          'left',
         marginBottom:   '10px'    
     },
+    logoSection:{
+        float:           'left'
+    },
     logo:{
         height:         '60px',
         padding:        '0 20px'
@@ -47,12 +51,14 @@ type headerOptions = {
 function Header({showBack}:headerOptions){
     const classes = useStyles(); 
     return(        
-        <div  className={classes.header} >
+        <div className={classes.header} >
             {
-                showBack && <Link to="/"><ArrowBackIcon  className={classes.anchBtn}/></Link>}
-                <div>
-                    <img  src={Logo}  className={classes.logo}></img> 
-                </div> 
+                showBack && <Link to="/home"><ArrowBackIcon  className={classes.anchBtn}/></Link>
+            }
+            <div className={classes.logoSection}>
+                <img src={Logo}  className={classes.logo}></img> 
+            </div> 
+            <Navbar></Navbar>
         </div>
         
     )
