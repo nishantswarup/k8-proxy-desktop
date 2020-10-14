@@ -56,7 +56,7 @@ function Navbar(){
                     <Link className={classes.navBtn} to="/homePage"><HomeIcon className={classes.matIcon}/> Home </Link>
                 </li>
                 <li className={classes.navItem}> 
-                    <a className={classes.navBtn} href="https://github.com/k8-proxy/k8-proxy-desktop/issues/new"><BugReportIcon className={classes.matIcon}/> Report issue </a>
+                    <a className={classes.navBtn} href="https://github.com/k8-proxy/k8-proxy-desktop/issues"><BugReportIcon className={classes.matIcon}/> Report issue </a>
                 </li>
                 {/* <li className={classes.navItem}>                 
                     <PopupBtn/>
