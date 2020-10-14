@@ -10,13 +10,17 @@ import      SlackBotUi            from './views/SlackBotUi'
 import      ForensicWorkbench     from './views/ForensicWorkbench'
 import      WelcomePage           from './views/WelcomePage'
 import      RebuildFiles          from './views/RebuildFiles'
+import      HomePage              from './views/HomePage'
+
+import   * as Utils               from './utils/utils'
 
 const App = () => (
 
     <HashRouter>      
       <div>
-        <Route path="/"                       exact component=  { WelcomePage         } />
+        <Route path="/"                       exact component=  { localStorage.getItem(Utils.WELCOME_PAGE_VISTIED_KEY) != Utils.WELCOME_PAGE_VISTIED_VAL ? WelcomePage:RebuildFiles} />
         <Route path="/home"                   exact component=  { Mainview            } />
+        <Route path="/homePage"               exact component=  { HomePage            } />
         <Route path="/fileDrop"               exact component=  { FileDrop            } />
         <Route path="/dashboardK8"            exact component=  { DashboardK8         } />
         <Route path="/jupyterNotebook"        exact component=  { JupyterNotebook     } />
@@ -26,5 +30,7 @@ const App = () => (
       </div>
     </HashRouter>
 );
+
+console.log(localStorage.getItem(Utils.WELCOME_PAGE_VISTIED_KEY))
 
 ReactDOM.render(<App />, app);

@@ -1,5 +1,5 @@
 import * as React               from 'react';
-import { Container, Grid }      from '@material-ui/core';
+import {Grid }      from '@material-ui/core';
 import { makeStyles }           from '@material-ui/core/styles';
 import logo                     from '../assets/images/GWWelcomeLogo.jpg'
 import ReleaseNote              from './ReleaseNote'
@@ -7,13 +7,13 @@ import { Link}                  from 'react-router-dom'
 import                          '../assets/style/style.css'
 import * as Utils               from '../utils/utils'
 import Footer                   from '../components/Footer';
-
+import SideDrawer               from '../components/SideDrawer';
 
 const { ipcRenderer } = require('electron');
 
 const useStyles = makeStyles((theme) => ({
     root:       {
-        flexGrow:       1, 
+        display:        'flex',
     },
     fullWidth:{
         maxWidth:       '100%',
@@ -27,11 +27,15 @@ const useStyles = makeStyles((theme) => ({
    gridItemRight:{
        borderLeft:      '1px solid #ccc',
        padding:         '15px!important',
-       boxShadow:       '-4px 3px 11px #ccc'
+       boxShadow:       '-4px 3px 11px #ccc',
+       float:           'right',
+       width:           '25%'
    },
    gridItemLeft:{
         textAlign:       'center',
-        padding:         '50px 15px 15px 15px!important'
+        padding:         '15px!important',
+        float:           'left',
+        width:           '75%'
    },
    welcomeTxt:{
         color:           '#0c3350',
@@ -85,11 +89,28 @@ const useStyles = makeStyles((theme) => ({
    colorGreen:{
         color:           '#47848f',
         textDecoration:  'none'
-   }
+   },
+   toolbar: {
+    display:             'flex',
+    alignItems:          'center',
+    justifyContent:      'flex-end',
+    padding:             theme.spacing(0, 1),
+    ...theme.mixins.toolbar,
+    },
+    content: {
+        flexGrow:        1,
+    },
+    contentArea:{
+        minHeight:       '81vh',
+        padding:         theme.spacing(3),
+    },
+    gridMainContainer:{
+
+    }
  }));
  
 
-function WelcomePage(){
+function HomePage(){
     const classes = useStyles(); 
     const [version, setVersion] = React.useState("0.1")
     
@@ -106,38 +127,38 @@ function WelcomePage(){
       }, []);
 
 
-    const getStarted =()=>{
-        console.log("localStorage" + localStorage.getItem(Utils.WELCOME_PAGE_VISTIED_KEY));
-        localStorage.setItem(Utils.WELCOME_PAGE_VISTIED_KEY, Utils.WELCOME_PAGE_VISTIED_VAL);
-    }
     return(
-        <div>                
-            <Container className={classes.fullWidth}>              
-                <Grid container spacing={2}>
-                    <Grid item xs={9} className={classes.gridItemLeft}>
-                        <h2 className={classes.welcomeTxt}>Welcome to Glasswall Proxy Desktop</h2>
-                        <div className={classes.logo}>
-                            <img src={logo} className={classes.logoImg}></img>
-                            <h2 className={classes.heading}>Glasswall Proxy Desktop</h2>
-                            <h6 className={classes.version}>{version}</h6>
-                            <p className={classes.abtContent}>Glasswall proxy desktop is a desktop based applications that provide multi file drag and drop rebuild workflow.</p>
-                        </div>
-                        <div onClick={getStarted} className={classes.btnGroup}>
-                            <Link to="/rebuildFiles" className={classes.getStartBtn}>Get Started</Link>                        
-                        </div>
-                        <footer>
-                            <p className={classes.termsCondition}>Agree to the <a href={Utils.LICENSE_URL} className={classes.colorGreen}>Terms and Conditions.</a></p>
-                        </footer>
-                    </Grid>
-                    <Grid item xs={3} className={classes.gridItemRight}>
-                        <ReleaseNote/>
-                    </Grid>
-                </Grid>
-            </Container>
-            <Footer/>
-        </div>
+        <div className={classes.root}> 
+                <SideDrawer showBack={false}/>
+                <main className={classes.content}>
+                    <div className={classes.toolbar} />
+                    <div className={classes.contentArea}>
+                        <Grid className={classes.gridMainContainer}>
+                            <Grid className={classes.gridItemLeft}>
+                                <h2 className={classes.welcomeTxt}>Welcome to Glasswall Proxy Desktopsssssss</h2>
+                                <div className={classes.logo}>
+                                    <img src={logo} className={classes.logoImg}></img>
+                                    <h2 className={classes.heading}>Glasswall Proxy Desktop</h2>
+                                    <h6 className={classes.version}>{version}</h6>
+                                    <p className={classes.abtContent}>Glasswall proxy desktop is a desktop based applications that provide multi file drag and drop rebuild workflow.</p>
+                                </div>
+                                <div className={classes.btnGroup}>
+                                    <Link to="/rebuildFiles" className={classes.getStartBtn}>Get Started</Link>                        
+                                </div>
+                                <footer>
+                                    <p className={classes.termsCondition}>Agree to the <a href={Utils.LICENSE_URL} className={classes.colorGreen}>Terms and Conditions.</a></p>
+                                </footer>
+                            </Grid>
+                            <Grid className={classes.gridItemRight}>
+                                <ReleaseNote/>
+                            </Grid>  
+                        </Grid>
+                    </div>
+                    <Footer/>
+                </main>
+            </div>   
         
     )
 }
 
-export default WelcomePage;
+export default HomePage;

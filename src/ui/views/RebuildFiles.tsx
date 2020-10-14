@@ -147,8 +147,8 @@ const useStyles = makeStyles((theme) => ({
         flexGrow:       1,
     },
     contentArea:{
-         minHeight:      '81vh',
-         padding:        theme.spacing(3),
+         minHeight:                 '85.7vh',
+         padding:                   theme.spacing(3),
     },
      downloadLink:{
         maxWidth:                   '245px',

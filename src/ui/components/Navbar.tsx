@@ -2,7 +2,8 @@ import * as React               from 'react';
 import { makeStyles }           from '@material-ui/core/styles';
 import { Link}                  from 'react-router-dom'
 import HomeIcon                 from '@material-ui/icons/Home';
-import PopupBtn                 from './PopupBtn';
+import BugReportIcon            from '@material-ui/icons/BugReport';
+//import PopupBtn                 from './PopupBtn';
 
 const useStyles = makeStyles((theme) => ({
     root:       {
@@ -52,12 +53,14 @@ function Navbar(){
         <div className={classes.navbar}>                
             <ul>
                 <li className={classes.navItem}> 
-                    <Link className={classes.navBtn} to="/home"><HomeIcon className={classes.matIcon}/> Home</Link>
+                    <Link className={classes.navBtn} to="/homePage"><HomeIcon className={classes.matIcon}/> Home </Link>
                 </li>
                 <li className={classes.navItem}> 
-                {/* <button className={classes.navBtn} onClick={handleOpen}><BugReportIcon className={classes.matIcon}/> Report issue</button> */}
+                    <a className={classes.navBtn} href="https://github.com/k8-proxy/k8-proxy-desktop/issues"><BugReportIcon className={classes.matIcon}/> Report issue </a>
+                </li>
+                {/* <li className={classes.navItem}>                 
                     <PopupBtn/>
-                </li>   
+                </li>    */}
             </ul>
         </div> 
     )
