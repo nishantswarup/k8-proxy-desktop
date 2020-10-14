@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     footerNav:{        
         background:         '#0c3451',
         float:              'right',
+        position:           'relative',
         width:              '100%',
         textAlign:          'center',
         bottom:             '0',
@@ -44,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
         fontSize:           '13px',
         cursor:             'pointer',
         color:              '#fff',
-        textDecoration:     'none',
         '&:focus':{
             border:         '0',
             outline:        '0'
@@ -64,7 +64,11 @@ const useStyles = makeStyles((theme) => ({
         
     }, 
     version:{
-        fontSize:           '12px'
+        padding:            '14px',
+        position:           'absolute',
+        right:              '0',
+        color:              '#fff',
+        fontSize:           '10px'
     },
     copyrightText:{
         padding:            '13px 10px',
@@ -112,40 +116,33 @@ const useStyles = makeStyles((theme) => ({
 
 function Footer(){
     const classes = useStyles(); 
-    const [version, setVersion] = React.useState("0.1")
-    
+    const [version, setVersion] = React.useState("0.1")    
 
     const getVersion = () =>{   
         ipcRenderer.send('app_version');
         console.log("Added version element");
         ipcRenderer.on('app_version', (event:any, arg:any) => {
           console.log("app_version callback "+arg.version);
-          //ipcRenderer.removeAllListeners('app_version');
-       //    version.innerText = 'New Version ' + arg.version;
             console.log('New Version ' + arg.version)
-            setVersion(arg.version);
         });
-
        }
 
-
     React.useEffect(() => {
-        console.log("useEffect");
         getVersion()     
       }, []);
+      
 
    return(
     <div className={classes.footerNav}>                
         <ul>
-            <li className={classes.footerNavItem}> 
-                <a className={classes.navBtn} href={Utils.LICENSE_URL}> View License</a>
-            </li>
-            <li className={classes.footerNavItem}> 
-                <span className={classes.version}> Version {version}</span>
-            </li>   
+              
             <li>
                 <span className={classes.copyrightText}>© Copyright 2020 - Glasswall Solutions Ltd. All Rights Reserved</span>
             </li>
+            <li className={classes.footerNavItem}> 
+                <a className={classes.navBtn} href={Utils.LICENSE_URL}> View License</a>
+            </li>
+            <li className={classes.version}> v {version} </li> 
         </ul>
         
     </div>        

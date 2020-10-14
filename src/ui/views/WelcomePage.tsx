@@ -8,6 +8,9 @@ import                          '../assets/style/style.css'
 import * as Utils               from '../utils/utils'
 import Footer                   from '../components/Footer';
 
+
+const { ipcRenderer } = require('electron');
+
 const useStyles = makeStyles((theme) => ({
     root:       {
         flexGrow:       1, 
@@ -88,6 +91,21 @@ const useStyles = makeStyles((theme) => ({
 
 function WelcomePage(){
     const classes = useStyles(); 
+    const [version, setVersion] = React.useState("0.1")
+    
+    const getVersion = () =>{   
+        ipcRenderer.send('app_version');
+        console.log("Added version element");
+        ipcRenderer.on('app_version', (event:any, arg:any) => {
+            setVersion(arg.version);
+        });
+       }
+
+    React.useEffect(() => {
+        getVersion()     
+      }, []);
+
+
     const getStarted =()=>{
         console.log("localStorage" + localStorage.getItem(Utils.WELCOME_PAGE_VISTIED_KEY));
         localStorage.setItem(Utils.WELCOME_PAGE_VISTIED_KEY, Utils.WELCOME_PAGE_VISTIED_VAL);
@@ -101,7 +119,7 @@ function WelcomePage(){
                         <div className={classes.logo}>
                             <img src={logo} className={classes.logoImg}></img>
                             <h2 className={classes.heading}>Glasswall Proxy Desktop</h2>
-                            <h6 className={classes.version}>{Utils.VERSION}</h6>
+                            <h6 className={classes.version}>{version}</h6>
                             <p className={classes.abtContent}>Glasswall proxy desktop is a desktop based applications that provide multi file drag and drop rebuild workflow.</p>
                         </div>
                         <div onClick={getStarted} className={classes.btnGroup}>
