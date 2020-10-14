@@ -10,6 +10,7 @@ import      SlackBotUi            from './views/SlackBotUi'
 import      ForensicWorkbench     from './views/ForensicWorkbench'
 import      WelcomePage           from './views/WelcomePage'
 import      RebuildFiles          from './views/RebuildFiles'
+import      HomePage              from './views/HomePage'
 
 import   * as Utils               from './utils/utils'
 
@@ -19,6 +20,7 @@ const App = () => (
       <div>
         <Route path="/"                       exact component=  { localStorage.getItem(Utils.WELCOME_PAGE_VISTIED_KEY) ? RebuildFiles:WelcomePage} />
         <Route path="/home"                   exact component=  { Mainview            } />
+        <Route path="/homePage"               exact component=  { HomePage            } />
         <Route path="/fileDrop"               exact component=  { FileDrop            } />
         <Route path="/dashboardK8"            exact component=  { DashboardK8         } />
         <Route path="/jupyterNotebook"        exact component=  { JupyterNotebook     } />

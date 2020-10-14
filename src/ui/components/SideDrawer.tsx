@@ -25,7 +25,8 @@ import Slack                    from '../assets/images/slack.png'
 import GWLogo                   from '../assets/images/GWLogo.png'
 import jupyter                  from '../assets/images/jupyter.png'
 import RebuildIcon              from '../assets/images/rebuild.png'
-import { BorderBottom } from '@material-ui/icons';
+import { BorderBottom }         from '@material-ui/icons';
+import HomeIcon                 from '../assets/images/homeIcon.png';
 
 const drawerWidth = 280;
 
@@ -182,6 +183,11 @@ function SideDrawer({ showBack }: headerOptions) {
     //     navIcon:    jupyter,
     //     anchLink:   '/jupyterNotebook'    
     // },
+    {
+        navName:    'Home',
+        navIcon:    HomeIcon,
+        anchLink:   '/homePage'    
+    },
     {
         navName:    'Rebuild Files',
         navIcon:    RebuildIcon,

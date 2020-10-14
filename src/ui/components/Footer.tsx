@@ -7,7 +7,8 @@ const useStyles = makeStyles((theme) => ({
     root:       {
         flexGrow:       1, 
     },
-    footerNav:{
+    footerNav:{        
+        background:         '#0c3451',
         float:              'right',
         width:              '100%',
         textAlign:          'center',
@@ -16,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
             padding:        '0 30px 0 0',
             margin:         '0',
             display:        'flex',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            listStyle:      'none'
         }
     },
     footerNavItem:{
@@ -24,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
         position:           'relative',
         float:              'left',
         padding:            '10px 10px',
+        color:              '#fff',
     },
     subnNav:{
         display:            'none',
@@ -37,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
         border:             'none',           
         fontSize:           '13px',
         cursor:             'pointer',
-        color:              '#0c3451',
+        color:              '#fff',
         textDecoration:     'none',
         '&:focus':{
             border:         '0',
@@ -61,11 +64,10 @@ const useStyles = makeStyles((theme) => ({
         fontSize:           '12px'
     },
     copyrightText:{
-        padding:            '10px',
-        width:              '100%',
+        padding:            '13px 10px',
+        //width:              '100%',
         textAlign:          'center',
         fontSize:           '11px',
-        background:         '#0c3451',
         float:              'left',
         boxSizing:          'border-box',
         color:              '#fff',
@@ -85,8 +87,11 @@ function Footer(){
             <li className={classes.footerNavItem}> 
                 <span className={classes.version}> Version {Utils.VERSION}</span>
             </li>   
+            <li>
+                <span className={classes.copyrightText}>© Copyright 2020 - Glasswall Solutions Ltd. All Rights Reserved</span>
+            </li>
         </ul>
-        <span className={classes.copyrightText}>© Copyright 2020 - Glasswall Solutions Ltd. All Rights Reserved</span>
+        
     </div>        
     )
 }

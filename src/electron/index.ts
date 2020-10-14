@@ -4,7 +4,8 @@ const {
     WebContents,
     Certificate,
     Menu,
-    Tray }                  = require('electron');
+    Tray,
+    ipcMain }                  = require('electron');
 const remote                = app.remote;
 const path                  = require('path')
 const shell                 = require('electron').shell
@@ -74,18 +75,18 @@ function createMenu(){
                         })
                     },
                 },
-                {
-                    label:'Check For Update',
-                    click: async (): Promise<void> => {
-                        const { response } = await dialog.showMessageBox({
-                        message: `Check For Update`,
-                        detail: `Soon will rollout this feature`,
-                        buttons: [ `Ok`],
-                        defaultId: 1,
-                        type: `info`,
-                        })
-                    },
-                },
+                // {
+                //     label:'Check For Update',
+                //     click: async (): Promise<void> => {
+                //         const { response } = await dialog.showMessageBox({
+                //         message: `Check For Update`,
+                //         detail: `Soon will rollout this feature`,
+                //         buttons: [ `Ok`],
+                //         defaultId: 1,
+                //         type: `info`,
+                //         })
+                //     },
+                // },
                 {
                     type:'separator'
                 },
