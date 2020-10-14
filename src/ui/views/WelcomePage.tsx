@@ -88,6 +88,10 @@ const useStyles = makeStyles((theme) => ({
 
 function WelcomePage(){
     const classes = useStyles(); 
+    const getStarted =()=>{
+        console.log("localStorage" + localStorage.getItem(Utils.WELCOME_PAGE_VISTIED_KEY));
+        localStorage.setItem(Utils.WELCOME_PAGE_VISTIED_KEY, Utils.WELCOME_PAGE_VISTIED_VAL);
+    }
     return(
         <div>                
             <Container className={classes.fullWidth}>              
@@ -100,7 +104,7 @@ function WelcomePage(){
                             <h6 className={classes.version}>{Utils.VERSION}</h6>
                             <p className={classes.abtContent}>Glasswall proxy desktop is a desktop based applications that provide multi file drag and drop rebuild workflow.</p>
                         </div>
-                        <div className={classes.btnGroup}>
+                        <div onClick={getStarted} className={classes.btnGroup}>
                             <Link to="/rebuildFiles" className={classes.getStartBtn}>Get Started</Link>                        
                         </div>
                         <footer>

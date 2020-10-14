@@ -11,11 +11,13 @@ import      ForensicWorkbench     from './views/ForensicWorkbench'
 import      WelcomePage           from './views/WelcomePage'
 import      RebuildFiles          from './views/RebuildFiles'
 
+import   * as Utils               from './utils/utils'
+
 const App = () => (
 
     <HashRouter>      
       <div>
-        <Route path="/"                       exact component=  { WelcomePage         } />
+        <Route path="/"                       exact component=  { localStorage.getItem(Utils.WELCOME_PAGE_VISTIED_KEY) ? RebuildFiles:WelcomePage} />
         <Route path="/home"                   exact component=  { Mainview            } />
         <Route path="/fileDrop"               exact component=  { FileDrop            } />
         <Route path="/dashboardK8"            exact component=  { DashboardK8         } />
