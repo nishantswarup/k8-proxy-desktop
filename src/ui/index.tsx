@@ -18,7 +18,7 @@ const App = () => (
 
     <HashRouter>      
       <div>
-        <Route path="/"                       exact component=  { localStorage.getItem(Utils.WELCOME_PAGE_VISTIED_KEY) ? WelcomePage:RebuildFiles} />
+        <Route path="/"                       exact component=  { localStorage.getItem(Utils.WELCOME_PAGE_VISTIED_KEY) != Utils.WELCOME_PAGE_VISTIED_VAL ? WelcomePage:RebuildFiles} />
         <Route path="/home"                   exact component=  { Mainview            } />
         <Route path="/homePage"               exact component=  { HomePage            } />
         <Route path="/fileDrop"               exact component=  { FileDrop            } />
@@ -30,5 +30,7 @@ const App = () => (
       </div>
     </HashRouter>
 );
+
+console.log(localStorage.getItem(Utils.WELCOME_PAGE_VISTIED_KEY))
 
 ReactDOM.render(<App />, app);

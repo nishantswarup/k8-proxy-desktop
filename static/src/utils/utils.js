@@ -1,14 +1,16 @@
 import packageJson from '../../package.json';
 console.log("package" + packageJson.owner); // 
 
-export const  MAC_BUILD = "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + 
-"/releases/download/"+ packageJson.version + "/" + packageJson.app_name + ".dmg.zip"
+export const  MAC_BUILD     =  "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + 
+                               "/releases/download/"+ packageJson.version + "/" + packageJson.app_name + ".dmg.zip"
 
 export const  WINDOWS_BUILD =  "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + 
-"/releases/download/"+ packageJson.version + "/" + packageJson.app_name + ".exe.zip"
-export const  LINUX_BUILD =  "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + 
-"/releases/download/"+ packageJson.version + "/" + packageJson.app_name + ".snap.zip"
-export const  RELEASE_URL = "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + "/releases/";
+                                "/releases/download/"+ packageJson.version + "/" + packageJson.app_name + ".exe.zip"
+
+export const  LINUX_BUILD   =   "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + 
+                                "/releases/download/"+ packageJson.version + "/" + packageJson.app_name + ".snap.zip"
+export const  RELEASE_URL   =   "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + "/releases/";
+
 export let getOS = () =>{
 
     var userAgent        = window.navigator.userAgent,
