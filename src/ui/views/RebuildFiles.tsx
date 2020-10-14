@@ -583,7 +583,7 @@ function RebuildFiles(){
                     var url = window.webkitURL.createObjectURL(file);
                     let guid: string;
                     guid =  Utils.guid();
-                    Utils.sleep(100);
+                    Utils.sleep(500);
                     FileUploadUtils.makeRequest(data, url, guid, outputDirId, downloadResult);
                     setShowLoader(true);
                 })

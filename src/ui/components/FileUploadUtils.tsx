@@ -2,6 +2,7 @@ import axios        from "axios";
 import axiosRetry   from 'axios-retry';
 import * as Utils   from '../utils/utils'
 
+const NUM_RETRIES = 5;
 
 const getPayload = (data: any) => {
     let buffer = Buffer.from(data.content, 'base64');
@@ -78,11 +79,14 @@ const getBase64 = (file: File) => {
 
 export const makeRequest = (request: any, sourceFileUrl: string, requestId: string, folderId: string,
       resultCallback: Function) => {
-
-    axiosRetry(axios, { retries: 5 , retryDelay: (retryCount) => {
-        console.log("http axiosRetry")
-        return retryCount * 5000;
-        }});
+      axiosRetry(axios, { retries: 5 , retryDelay: (retryCount) => {
+        console.log("http axiosRetry retryCount = "+retryCount)
+        return 2000;
+        },
+        retryCondition: (error:any) => {
+          return error.response.status === 429;
+        }
+        });
 
     let payload: string | any;
     let url : string;
@@ -90,11 +94,12 @@ export const makeRequest = (request: any, sourceFileUrl: string, requestId: stri
 
     payload = getPayload(request)
     var fileSize = payload.fileSize;
-   
+
     // Files smaller than 6MB - Normal
     payload = JSON.stringify(payload)
+    let retries = NUM_RETRIES
     if(fileSize < 6){
-        //console.log(payload)
+
         return axios.post(url, payload, {
                 headers: {
                     "x-api-key": Utils.REBUILD_API_KEY,
@@ -108,53 +113,73 @@ export const makeRequest = (request: any, sourceFileUrl: string, requestId: stri
         })
         .catch(err => {
             console.log("3:" + JSON.stringify(err));
-            resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
-              msg:err.message, id:requestId, targetDir:folderId, original:request.content})
-        })
-    }
-    // 6 to 30 MB - S3 Presigned
-    else if(fileSize < 30){
-        axios.post(url+'uploadLocal', getLocalUpload(request), {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-        .then((response) => {
-            axios.post(url+'processFile', {"FileName": request.original_file_name}, {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            .then((response) => {
-                if(response.status === 200){
-                    return axios.get(url+'getFilePath', {
-                        params: {
-                            FileName: request.original_file_name
-                        }
-                    })
-                    .then((response) => {
-                        console.log('Retrieved file:' + response.data)
-                        getAnalysisResult(true, response.data, request, sourceFileUrl, requestId, folderId, resultCallback);
-                    });
+            if(err.message.indexOf('422') > -1){
+                resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
+             msg:'File of this type cannot be processed', id:requestId, targetDir:folderId, original:request.content})
             }
-            })
-        .catch(err => {
-            resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
-              msg:err.message, id:requestId, targetDir:folderId, original:request.content})
-        })
-        })
-        .catch(err => {
-            resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
-            msg:err.message, id:requestId, targetDir:folderId, original:request.content})
+            else if(err.message.indexOf('429') > -1){
+                if(retries <= 0){
+                    resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
+                        msg:'Please try this file again.Sever overloaded', id:requestId, targetDir:folderId, original:request.content})
+                }
+                else{
+                    while(--retries > 0){
+                        Utils.sleep(1000);
+                        console.log("4: Retrying request " + retries);
+                        retry(request, sourceFileUrl, requestId, folderId, resultCallback);
+                    }
+
+                }
+            }
+            else{
+                resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
+                  msg:err.message, id:requestId, targetDir:folderId, original:request.content})
+            }
         })
     }
     else{
         resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
-         msg:'File too big. 4 bytes to 30 MB file size bracket', id:requestId, targetDir:folderId, original:request.content})
-
+             msg:'File too big. 4 bytes to 6 MB file size bracket', id:requestId, targetDir:folderId, original:request.content})
     }
- 
-};
+}
+
+export const retry = (request: any, sourceFileUrl: string, requestId: string, folderId: string,
+      resultCallback: Function) => {
+
+    let payload: string | any;
+    let url : string;
+    url = Utils.REBUILD_ENGINE_URL;
+
+    payload = getPayload(request)
+    var fileSize = payload.fileSize;
+
+    // Files smaller than 6MB - Normal
+    payload = JSON.stringify(payload)
+    let retries = NUM_RETRIES
+    if(fileSize < 6){
+
+        return axios.post(url, payload, {
+                headers: {
+                    "x-api-key": Utils.REBUILD_API_KEY,
+                    "Content-Type": "application/json"
+                }
+            })
+        .then((response) => {
+            if(response.status === 200){
+                getAnalysisResult(false, response.data, request, sourceFileUrl, requestId, folderId, resultCallback);
+            }
+        })
+        .catch(err => {
+            resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
+              msg:err.message, id:requestId, targetDir:folderId, original:request.content})
+        })
+    }
+    else{
+        resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
+             msg:'File too big. 4 bytes to 6 MB file size bracket', id:requestId, targetDir:folderId, original:request.content})
+    }
+}
+
 
 export const getAnalysisResult= async (isBinaryFile: boolean, reBuildResponse: any, request: any, sourceFile: string,
      requestId: string, targetFolder: string, resultCallback: Function)=>{
@@ -257,3 +282,60 @@ export const getFile = (file: any) => {
     });
 
 }
+
+/*const sendHttpRequest = (url:any ,method:any, body:any, statusAndResponse:any) => {
+    let retries : number;
+    retries = NUM_RETRIES;
+    if(retries -- > 0){
+        let response :  [number, string];
+        response = doRequest(url,method,body,statusAndResponse);
+        if(response[0] == 200){
+            return response[1];
+        }
+        else{
+             setTimeout(() => { console.log("World!"); }, 1000);
+             let response = doRequest(url,method,body,statusAndResponse);
+             if(response[0] == 200){
+                return response[1];
+             }
+        }
+    }
+}*/
+
+/*const doRequest = (url:any ,method:any, body:any, statusAndResponse:any) => {
+	console.log('sendhttpRequest [IN] url - '+url+',method - '+method+', body - '+body);
+    var xmlhttp : any;
+    if (window.XMLHttpRequest){
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+    }
+    else{
+        // code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=function(){
+        if (xmlhttp.readyState==4 && (xmlhttp.status==200 || xmlhttp.status==201)){
+            response = xmlhttp.responseText;
+            statusAndResponse[0] = xmlhttp.status;
+            statusAndResponse[1] = response;
+            //console.log('Done. Status '+xmlhttp.status+", "+statusAndResponse[0]+", "+statusAndResponse[1]);
+            return statusAndResponse;
+        }
+        else{
+            statusAndResponse[0] = xmlhttp.status;
+            return statusAndResponse;
+            console.log('Error retrieving URL. Status '+xmlhttp.status+", "+statusAndResponse);
+        }
+    }
+    xmlhttp.open(method,url+'?t='+ Math.random(),false);
+    xmlhttp.crossDomaintrue = true;
+    xmlhttp.setRequestHeader("Content-Type", "application/json");
+    xmlhttp.setRequestHeader("x-api-key", Utils.REBUILD_API_KEY);
+    try{
+        xmlhttp.send(body);
+    }
+    catch(err){
+        console.log(err);
+        console.log(err.stack);
+    }
+}*/

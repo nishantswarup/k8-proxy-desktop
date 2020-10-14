@@ -4,7 +4,8 @@ const {
     WebContents,
     Certificate,
     Menu,
-    Tray }                  = require('electron');
+    Tray,
+    ipcMain}                = require('electron');
 const remote                = app.remote;
 const path                  = require('path')
 const shell                 = require('electron').shell
@@ -151,7 +152,7 @@ function makeWindow(): typeof BrowserWindow {
     })
    
     //to add chrome dev tools 
-    //window.webContents.openDevTools();
+    window.webContents.openDevTools();
     return window;
 }
 
