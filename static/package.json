@@ -1,8 +1,11 @@
 {
   "name": "k8-electron-react",
   "version": "0.1.0",
+  "repo": "k8-electron-react",
+  "repo_owner": "gmuditdce",
+  "app_name":"k8-proxy-desktop",
   "private": true,
-  "homepage": "https://pages.github.com//k8-electron-react",
+  "homepage": "https://gmuditdce.github.io/k8-electron-react",
   "devDependencies": {
     "webpack": "4.42.0",
     "@testing-library/jest-dom": "^4.2.4",
