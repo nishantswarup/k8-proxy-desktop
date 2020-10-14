@@ -2,7 +2,7 @@
   "name": "k8-electron-react",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://rajmbcoderx.github.io/k8-electron-react",
+  "homepage": "https://pages.github.com//k8-electron-react",
   "devDependencies": {
     "webpack": "4.42.0",
     "@testing-library/jest-dom": "^4.2.4",
