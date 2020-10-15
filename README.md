@@ -31,7 +31,7 @@ Warning: This software is under active development. Use at your own risk.
 
 ### macOS
 
-Download the latest [k8-proxy-desktop release](https://github.com/gmuditdce/k8-proxy-desktop/releases/download/v0.6.0/k8-proxy-desktop.dmg).
+Download the latest [k8-proxy-desktop release](https://github.com/gmuditdce/k8-proxy-desktop/releases/download/v0.6.0/k8-proxy-desktop-0.6.0.dmg).
 
 Mac users will need to follow the below steps on the app when you first launch it, until we have [code signing](https://www.electron.build/code-signing) set up
 
@@ -62,7 +62,7 @@ TBD: will automatically update when a new release is available.
 ### Linux Snap
 
 k8-proxy-desktop is only available for 64-bit Linux systems.
-Download the latest [k8-proxy-desktop relase](https://github.com/github.com/gmuditdce/releases/download/v0.6.0/k8-proxy-desktop-0.6.0.snap
+Download the latest [k8-proxy-desktop relase](https://github.com/gmuditdce/releases/download/v0.6.0/k8-proxy-desktop-0.6.0.snap
 ).
 
 Linux/Ubuntu users will need to follow the below steps on the app when you first launch it.
