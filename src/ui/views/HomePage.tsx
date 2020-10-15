@@ -135,7 +135,7 @@ function HomePage(){
                     <div className={classes.contentArea}>
                         <Grid className={classes.gridMainContainer}>
                             <Grid className={classes.gridItemLeft}>
-                                <h2 className={classes.welcomeTxt}>Welcome to Glasswall Proxy Desktopsssssss</h2>
+                                <h2 className={classes.welcomeTxt}>Welcome to Glasswall Proxy Desktop</h2>
                                 <div className={classes.logo}>
                                     <img src={logo} className={classes.logoImg}></img>
                                     <h2 className={classes.heading}>Glasswall Proxy Desktop</h2>

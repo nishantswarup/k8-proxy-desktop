@@ -89,7 +89,7 @@ function ReleaseNote(){
     const classes = useStyles(); 
     return(  
         <Grid container>   
-            <a className={classes.webAnchor} href={Utils.WEBSITE_URL} title="k8-proxy-desktop">K8 Proxy Desktop</a>
+            <a className={classes.webAnchor} href={Utils.WEBSITE_URL} title="k8-proxy-desktop">Glasswall Proxy Desktop</a>
             <h3 className={classes.releaseHeading}> <a className={classes.webHeading} href={Utils.RELEASE_URL}> Realease Note</a></h3>
             {
                 Utils.RELEAE_NOTES.map(issue=>{

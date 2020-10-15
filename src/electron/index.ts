@@ -54,7 +54,7 @@ function createMenu(){
             label: 'Desktop'
         },
         {
-            label: 'K8-Proxy-Desktop',
+            label: 'Glasswall Proxy Desktop',
             submenu: [
                 {
                     label: 'Home',
@@ -64,11 +64,11 @@ function createMenu(){
                     type:'separator'
                 }, 
                 {
-                    label:'About k8 Proxy Desktop',
+                    label:'About Glasswall Proxy Desktop',
                     click: async (): Promise<void> => {
                         const { response } = await dialog.showMessageBox({
-                        message: `About K8 Proxy Desktop`,
-                        detail: ` K8 Proxy desktop  applications that provides a single entry point to all K8 projects. Build with electron and react, it is aimed at providing a single window integration with GW git resources, file-drop, forensic-workbench, jupyter notebooks, and K8-* services.`,
+                        message: `About Glasswall Proxy Desktop`,
+                        detail: ` Glasswall proxy desktop is a desktop based applications that provide multi file drag and drop rebuild workflow.`,
                         buttons: [ `Ok`],
                         defaultId: 1,
                         type: `info`,

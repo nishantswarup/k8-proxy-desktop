@@ -23,23 +23,24 @@ export const WELCOME_PAGE_VISTIED_VAL   = "yes"
 
 export const RELEAE_NOTES           =[
                                         {
-                                          "date":"October 8th 2020",
-                                          "desc":"Rebuild Output (tmp) directory structure need to be modified."
+                                          "date":"October 15th 2020",
+                                          "desc":"On uploading multiple files in the app at once, the rebuild api give 429 (TooManyRequests)."
                                         }, 
                                         {
-                                          "date":"October 7th 2020",
-                                          "desc":"An option to user to select custom location for saving rebuild files."
+                                          "date":"October 14th 2020",
+                                          "desc":"Solution to install upgrades #30"
                                         },
                                         {
-                                          "date":"October 6th  2020",
-                                          "desc":"Same directory format to be kept for dragged directory post re-build api."
+                                          "date":"October 13th  2020",
+                                          "desc":"Publish a build to Github Release #75"
                                         }, 
                                         {
-                                          "date":"October 5th  2020 ",
-                                          "desc":"Check box to be provided so that user can select to keep existing directory format or flat format."
-                                        }, {
-                                          "date":"October 4th  2020 ",
-                                          "desc":"Current website to be replicated with file drop feature"
+                                          "date":"October 12th  2020 ",
+                                          "desc":" Notification for the updated version. #139"
+                                        },
+                                         {
+                                          "date":"October 12th  2020 ",
+                                          "desc":"Change default landing page from Welcome page to the direct File drop option. #137"
                                         }
                                       ]
 
