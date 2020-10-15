@@ -578,14 +578,14 @@ function RebuildFiles(){
 
             //console.log(acceptedFiles[0].path)
             acceptedFiles.map(async (file: File) => {
-                await FileUploadUtils.getFile(file).then((data: any) => {
+                await FileUploadUtils.getFile(file).then(async (data: any) => {
                     setFileNames((fileNames: any) =>[...fileNames, file.name]);
                     var url = window.webkitURL.createObjectURL(file);
                     let guid: string;
                     guid =  Utils.guid();
-                    Utils.sleep(500);
-                    FileUploadUtils.makeRequest(data, url, guid, outputDirId, downloadResult);
                     setShowLoader(true);
+                    Utils.sleep(800);
+                    await FileUploadUtils.makeRequest(data, url, guid, outputDirId, downloadResult);
                 })
             })
         }

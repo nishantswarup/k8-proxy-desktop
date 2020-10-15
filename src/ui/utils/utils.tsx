@@ -43,10 +43,14 @@ export const RELEAE_NOTES           =[
                                         }
                                       ]
 
-export const sleep = (milliseconds:number) => {
+export const sleepDelay = (milliseconds:number) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
-  
+
+  export const sleep = (delay:number) => {
+    var start = new Date().getTime();
+    while (new Date().getTime() < start + delay);
+}
 
   const _p8=(s:boolean) =>{
 

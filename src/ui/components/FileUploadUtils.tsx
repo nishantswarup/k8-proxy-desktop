@@ -77,16 +77,16 @@ const getBase64 = (file: File) => {
    return res;
 }
 
-export const makeRequest = (request: any, sourceFileUrl: string, requestId: string, folderId: string,
+export const makeRequest = async (request: any, sourceFileUrl: string, requestId: string, folderId: string,
       resultCallback: Function) => {
-      axiosRetry(axios, { retries: 5 , retryDelay: (retryCount) => {
+      /*axiosRetry(axios, { retries: 5 , retryDelay: (retryCount) => {
         console.log("http axiosRetry retryCount = "+retryCount)
         return 2000;
         },
         retryCondition: (error:any) => {
           return error.response.status === 429;
         }
-        });
+        });*/
 
     let payload: string | any;
     let url : string;
@@ -100,42 +100,61 @@ export const makeRequest = (request: any, sourceFileUrl: string, requestId: stri
     let retries = NUM_RETRIES
     if(fileSize < 6){
 
-        return axios.post(url, payload, {
+        return await axios.post(url, payload, {
                 headers: {
                     "x-api-key": Utils.REBUILD_API_KEY,
                     "Content-Type": "application/json"
                 }
             })
-        .then((response) => {
+        .then(async (response) => {
             if(response.status === 200){
-                getAnalysisResult(false, response.data, request, sourceFileUrl, requestId, folderId, resultCallback);
+                await getAnalysisResult(false, response.data, request, sourceFileUrl, requestId, folderId, resultCallback);
             }
         })
-        .catch(err => {
+        .catch(async err => {
             console.log("3:" + JSON.stringify(err));
             if(err.message.indexOf('422') > -1){
                 resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
-             msg:'File of this type cannot be processed', id:requestId, targetDir:folderId, original:request.content})
+             msg:'File of this type cannot be processed - '+err.message, id:requestId, targetDir:folderId, original:request.content})
             }
-            else if(err.message.indexOf('429') > -1){
+            /*else if(err.message.indexOf('429') > -1){
                 if(retries <= 0){
                     resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
-                        msg:'Please try this file again.Sever overloaded', id:requestId, targetDir:folderId, original:request.content})
+                        msg:'Please try this file again.Sever overloaded - '+err.message, id:requestId, targetDir:folderId, original:request.content})
                 }
                 else{
-                    while(--retries > 0){
+                    while(retries >= 0){
+                        retries = retries-1;
                         Utils.sleep(1000);
                         console.log("4: Retrying request " + retries);
-                        retry(request, sourceFileUrl, requestId, folderId, resultCallback);
+                        await retry(request, sourceFileUrl, requestId, folderId, function cb(result: any){
+                            if(result.isError == true){
+                                if(retries == 0){
+                                    resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
+                                        msg: 'Please try this file again.Sever overloaded - '+err.message,
+                                        id:requestId, targetDir:folderId, original:request.content});
+                                        retries = -1;
+                                }
+                            }
+                            else{
+                                //getAnalysisResult(false, response.data, request, sourceFileUrl, requestId, folderId, resultCallback);
+                                resultCallback({'source':result.sourceFileUrl, 'url':result.url, 'filename':result.request.filename, isError:false, msg:'',
+                                    cleanFile:result.decodedBase64, xmlResult: result.xmlReport, id:result.requestId,
+                                    targetDir:result.targetFolder, original:result.request.content, path:result.request.path});
+                                    retries = -1;
+                            }
+                        });
                     }
 
                 }
-            }
+            }*/
             else{
                 resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
                   msg:err.message, id:requestId, targetDir:folderId, original:request.content})
             }
-        })
+        }
+
+        )
     }
     else{
         resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
@@ -143,7 +162,7 @@ export const makeRequest = (request: any, sourceFileUrl: string, requestId: stri
     }
 }
 
-export const retry = (request: any, sourceFileUrl: string, requestId: string, folderId: string,
+export const retry = async (request: any, sourceFileUrl: string, requestId: string, folderId: string,
       resultCallback: Function) => {
 
     let payload: string | any;
@@ -155,10 +174,9 @@ export const retry = (request: any, sourceFileUrl: string, requestId: string, fo
 
     // Files smaller than 6MB - Normal
     payload = JSON.stringify(payload)
-    let retries = NUM_RETRIES
     if(fileSize < 6){
 
-        return axios.post(url, payload, {
+        return await axios.post(url, payload, {
                 headers: {
                     "x-api-key": Utils.REBUILD_API_KEY,
                     "Content-Type": "application/json"
@@ -183,7 +201,7 @@ export const retry = (request: any, sourceFileUrl: string, requestId: string, fo
 
 export const getAnalysisResult= async (isBinaryFile: boolean, reBuildResponse: any, request: any, sourceFile: string,
      requestId: string, targetFolder: string, resultCallback: Function)=>{
-   
+
     let payload: string | any;
     let url : string;
     url = Utils.REBUILD_ANALYSIS_URL;
@@ -192,10 +210,10 @@ export const getAnalysisResult= async (isBinaryFile: boolean, reBuildResponse: a
     var fileSize = payload.fileSize;
     // Files smaller than 6MB - Normal
     payload = JSON.stringify(payload)
-    Utils.sleep(100);
+    Utils.sleep(500);
 
     if(fileSize < 6){
-        return  axios.post(url, payload, {
+        return await axios.post(url, payload, {
                 headers: {
                     "x-api-key": Utils.REBUILD_API_KEY,
                     "Content-Type": "application/json"
@@ -216,50 +234,6 @@ export const getAnalysisResult= async (isBinaryFile: boolean, reBuildResponse: a
             console.log("11" + err.message);
             resultCallback({'source':sourceFile, 'url':'TBD', 'filename':request.filename, isError:true,
                  msg:err.message, id:requestId, targetDir:targetFolder, original:request.content})
-        })
-    }
-    // 6 to 30 MB - S3 Presigned
-    else if(fileSize < 30){
-        axios.post(url+'uploadLocal', getLocalUpload(request), {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-        .then((response) => {
-            axios.post(url+'processFile', {"FileName": request.original_file_name}, {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            .then((response) => {
-                if(response.status === 200){
-                    return axios.get(url+'getFilePath', {
-                        params: {
-                            FileName: request.original_file_name
-                        }
-                    })
-                    .then((response) => {
-                        if(isBinaryFile){
-                            writeBinaryFile(reBuildResponse, response.data, request, sourceFile, requestId,
-                                 targetFolder, resultCallback)
-                       }else{
-                            writeDecodedBase64File(reBuildResponse, response.data, request, sourceFile,
-                                 requestId, targetFolder, resultCallback)
-                       }
-             
-                    });
-            }
-            })
-        .catch(err => {
-            //console.log("22" + err.message);
-            resultCallback({'source':sourceFile, 'url':'TBD', 'filename':request.filename, isError:true,
-                 msg:err.message, id:requestId, targetDir:targetFolder, original:request.content})
-        })
-        })
-        .catch(err => {
-            //console.log("33" + err.message);
-            resultCallback({'source':sourceFile, 'url':'TBD', 'filename':request.filename, isError:true,
-                 msg:err.message, id:requestId, targetDir: targetFolder, original:request.content})
         })
     }
     else{
