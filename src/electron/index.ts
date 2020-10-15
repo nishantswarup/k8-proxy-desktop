@@ -98,7 +98,7 @@ function createMenu(){
                     click: async (): Promise<void> => {
                         //openMainWindow()
                         const { response } = await dialog.showMessageBox({
-                        message: `Quit K8 Proxy Desktop?`,
+                        message: `Quit Glasswall Proxy Desktop?`,
                         detail: `This will stop all running sites`,
                         buttons: [`Cancel`, `Quit`],
                         defaultId: 1,

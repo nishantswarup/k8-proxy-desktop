@@ -83,34 +83,6 @@ const useStyles = makeStyles((theme) => ({
  }));
  
 
-//  const notification = document.getElementById('notification');
-//  const message = document.getElementById('message');
-//  const restartButton = document.getElementById('restart-button');
-//  ipcRenderer.on('update_available', () => {
-//    console.log('update_available in script some changes also there')
-//    ipcRenderer.removeAllListeners('update_available');
-//    message.innerText = 'A new update is available. Downloading now...';
-//    notification.classList.remove('hidden');
-//  });
-//  ipcRenderer.on('update_downloaded', () => {
-//     console.log('update_downloaded in script')
-//    ipcRenderer.removeAllListeners('update_downloaded');
-//    message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
-//    restartButton.classList.remove('hidden');
-//    notification.classList.remove('hidden');
-//  });
-//  ipcRenderer.on('checking-for-update', () => {
-//     console.log('checking-for-update in script')
-//  });
-//  ipcRenderer.on('update-not-available', () => {
-//     console.log('update-not-available in script')
-//  });
-// function closeNotification() {
-//  notification.classList.add('hidden');
-// }
-// function restartApp() {
-//  ipcRenderer.send('restart_app');
-// }
 
 
 
@@ -120,11 +92,12 @@ function Footer(){
 
     const getVersion = () =>{   
         ipcRenderer.send('app_version');
-        console.log("Added version element");
         ipcRenderer.on('app_version', (event:any, arg:any) => {
           console.log("app_version callback "+arg.version);
             console.log('New Version ' + arg.version)
+            setVersion(arg.version)
         });
+       
        }
 
     React.useEffect(() => {
