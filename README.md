@@ -1,11 +1,11 @@
 
 
 
-# [k8-proxy-desktop](https://rajmbcoderx.github.io/k8-electron-react/)
+# [k8-proxy-desktop](https://gmuditdce.github.io/k8-proxy-desktop//)
 <p>k8-proxy-desktop is a desktop based applications that provides a single entry point to all K8 projects. Build with 
 <a href="https://github.com/electron/electron"> Electron</a> , react, it is aimed at providing a single window integration with GW git resources, file-drop, forensic-workbench, jupyter notebooks, and K8-* services.  It is a standalone application for MacOS, Windows and Linux operating systems.</p>
 
-![k8-proxy-desktop Screenshot](https://github.com/rajmbcoderx/k8-electron-react/blob/master/Screen-shot-1.png?raw=true)
+![k8-proxy-desktop Screenshot](https://github.com/gmuditdce/k8-proxy-desktop/blob/master/Screen-shot-1.png?raw=true)
 
 <h2> How to setup</h2> 
 <li>Clone the repo</li>
@@ -31,29 +31,30 @@ Warning: This software is under active development. Use at your own risk.
 
 ### macOS
 
-Download the latest [k8-proxy-desktop release](https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.5.0/k8-proxy-desktop.dmg.zip).
+Download the latest [k8-proxy-desktop release](https://github.com/gmuditdce/k8-proxy-desktop/releases/download/v0.6.0/k8-proxy-desktop.dmg).
 
 Mac users will need to follow the below steps on the app when you first launch it, until we have [code signing](https://www.electron.build/code-signing) set up
 
 <p>Step 1</p>
   
-![k8-proxy-desktop Screenshot](https://raw.githubusercontent.com/rajmbcoderx/k8-electron-react/master/permission1.png)
+![k8-proxy-desktop Screenshot](https://raw.githubusercontent.com/gmuditdce/k8-proxy-desktop/master/permission1.png)
 
 
 <p>Step 2</p>
 
-![k8-proxy-desktop Screenshot](https://raw.githubusercontent.com/rajmbcoderx/k8-electron-react/master/permission2.png)
+![k8-proxy-desktop Screenshot](https://raw.githubusercontent.com/gmuditdce/k8-proxy-desktop/master/permission2.png)
 
 
 <p>Step 3</p>
 
-![k8-proxy-desktop Screenshot](https://raw.githubusercontent.com/rajmbcoderx/k8-electron-react/master/permission3.png)
+![k8-proxy-desktop Screenshot](https://raw.githubusercontent.com/gmuditdce/k8-proxy-desktop/master/permission3.png)
 
 TBD: Will automatically update when a new release is available.
 
 ### Windows
 
-Download the latest [k8-proxy-desktop relase](https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.5.0/k8-proxy-desktop.exe.zip).
+Download the latest [k8-proxy-desktop relase](https://github.com/gmuditdce/k8-proxy-desktop/releases/download/v0.6.0/k8-proxy-desktop-Setup-0.6.0.exe
+).
 
 TBD: will automatically update when a new release is available.
 
@@ -61,7 +62,8 @@ TBD: will automatically update when a new release is available.
 ### Linux Snap
 
 k8-proxy-desktop is only available for 64-bit Linux systems.
-Download the latest [k8-proxy-desktop relase](https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.5.0/k8-proxy-desktop.snap.zip).
+Download the latest [k8-proxy-desktop relase](https://github.com/github.com/gmuditdce/releases/download/v0.6.0/k8-proxy-desktop-0.6.0.snap
+).
 
 Linux/Ubuntu users will need to follow the below steps on the app when you first launch it.
 
