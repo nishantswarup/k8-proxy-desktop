@@ -21,14 +21,12 @@ const useStyles = makeStyles((theme) => ({
 
 function Loader (){
     const classes = useStyles(); 
-    return(
-        <div>              
-            <Container>  <Grid>
-                        <div className={classes.loader}><img src={spinner} height="100"/></div>
-                    </Grid>
-
-            </Container>
-        </div>
+    return(           
+        <Container>  
+            <Grid>
+                <div className={classes.loader}><img src={spinner} height="100"/></div>
+            </Grid>
+        </Container>
     )
 }
 

@@ -1,5 +1,6 @@
 import React        from "react";
 import lensLogo     from "../images/logo.svg";
+import * as Utils     from '../utils/utils'
 
 export default function Nav() {
   return (
@@ -42,9 +43,9 @@ export default function Nav() {
           <li className="nav-item">
             <a
               className="nav-link"
-              href="https://github.com/rajmbcoderx/k8-electron-react/releases/tag/0.2.0"
+              href={Utils.RELEASE_URL}
             >
-              DOWNLOAD
+              REPOSITORIES 
             </a>
           </li>
         </ul>

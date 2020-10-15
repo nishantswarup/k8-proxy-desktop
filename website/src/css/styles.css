@@ -1165,20 +1165,25 @@ input[type='checkbox'] {
 	padding-bottom: 7.25rem;
 	background: var(--light-dark-bg);
 }
+.basic-5 {
+	padding-top: 3.5rem;
+	padding-bottom: 7.25rem;
+	background: url('../images/body-background.png');
+}
 
-.basic-3 .text-container {
+.basic-3 .text-container, .basic-5 .text-container {
 	margin-bottom: 3.5rem;
 }
 
-.basic-3 h3 {
+.basic-3 h3, .basic-5 h3 {
 	margin-bottom: 1.125rem;
 }
 
-.basic-3 p{
+.basic-3 p, .basic-5 p{
   font-size: 16px;
 }
 
-.basic-3 .btn-solid-reg {
+.basic-3 .btn-solid-reg, .basic-5 .btn-solid-reg {
 	margin-top: 0.5rem;
 }
 
@@ -1312,7 +1317,8 @@ input[type='checkbox'] {
 .basic-4 {
 	padding-top: 6.5rem;
 	padding-bottom: 6.75rem;
-  background: linear-gradient(to right, #0b2c48, #8E2DE2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	/* background: linear-gradient(to right, #0b2c48, #8E2DE2); *//* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: var(--light-dark-bg); 
 }
 
 .basic-4 .text-container {
@@ -1444,14 +1450,19 @@ input[type='checkbox'] {
 	margin-bottom: 1rem;
 }
 
-.footer .list-unstyled .fas {
-	color: var(--primary-color);
-	font-size: 0.5rem;
-	line-height: 1.375rem;
+.footer .list-unstyled i {
+	/* color: var(--primary-color); */
+	color: #fff;
+	font-size: 0.7rem;
+	line-height: 1.5rem;
 }
 
 .footer .list-unstyled .media-body {
 	margin-left: 0.625rem;
+}
+
+.footer .list-unstyled .media-body a{
+	color: #fff;
 }
 
 .footer .fa-stack {
@@ -1606,7 +1617,7 @@ a:hover.back-to-top {
 	}
 
 	h1 {
-		font: 700 3.25rem/3.75rem "Montserrat", sans-serif;
+		font: 700 2.5rem/3.5rem "Montserrat", sans-serif;
 	}
 	/* end of general styles */
 
@@ -1857,7 +1868,7 @@ a:hover.back-to-top {
 	/* Header */
 	.header .header-content {
 		padding-top: 13rem;
-		padding-bottom: 10rem;
+		padding-bottom: 8rem;
 		text-align: left;
 	}
 
@@ -1937,7 +1948,7 @@ a:hover.back-to-top {
 
 
 	/* Details 2 */
-	.basic-3 .text-container {
+	.basic-3 .text-container, .basic-5 .text-container  {
 		margin-top: 2.5rem;
 		margin-bottom: 0;
 	}
@@ -1965,7 +1976,7 @@ a:hover.back-to-top {
 
 	/* Download */
 	.basic-4 {
-		padding-top: 6.75rem;
+		padding-top: 4.75rem;
 	}
 
 	.basic-4 .text-container {
@@ -2119,7 +2130,7 @@ a:hover.back-to-top {
 
 
 	/* Details 2 */
-	.basic-3 .text-container {
+	.basic-3 .text-container, .basic-5 .text-container {
 		margin-top: 4.5rem;
 		margin-right: 3.5rem;
 		margin-left: 2rem;
@@ -2172,3 +2183,6 @@ a:hover.back-to-top {
 	/* end of extra pages */
 }
 /* end of min-width width 1200px */
+.text-center{
+	text-align: center;
+}

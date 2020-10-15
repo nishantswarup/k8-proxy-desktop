@@ -7,8 +7,9 @@ export default function Download() {
     <div id="download" className="basic-4">
       <div className="container">
         <div className="row">
-          <div className="col-lg-6 col-xl-5">
-            <div className="text-container">
+          {/* <div className="col-lg-6 col-xl-5"> */}
+          <div className="col-lg-12">
+            <div className="text-container text-center">
               <h2>
                 Download <span className="blue">K8 Proxy Desktop</span>
               </h2>
@@ -36,7 +37,7 @@ export default function Download() {
               </a>
             </div>
           </div>
-          <div className="col-lg-6 col-xl-7">
+          {/* <div className="col-lg-6 col-xl-7">
             <div className="image-container">
               <img
                 className = "img-fluid"
@@ -44,7 +45,7 @@ export default function Download() {
                 alt       = "alternative"
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

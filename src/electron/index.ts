@@ -4,12 +4,19 @@ const {
     WebContents,
     Certificate,
     Menu,
-    Tray }          = require('electron');
-const path          = require('path')
-const shell         = require('electron').shell
-const { dialog }    = require('electron')
-const dir           = path.resolve(__dirname, `..`)
+    Tray,
+    ipcMain}                = require('electron');
+const remote                = app.remote;
+const path                  = require('path')
+const shell                 = require('electron').shell
+const { dialog }            = require('electron')
+const dir                   = path.resolve(__dirname, `..`)
+const { autoUpdater }       = require('electron-updater');
+const log                   = require('electron-log');
 
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'debug';
+log.info('App starting...');
 
 // function makeTray(){
 //     const tray = new Tray(path.resolve(dir, `assets`, `IconTemplate.png`))
@@ -50,7 +57,7 @@ function createMenu(){
             label: 'K8-Proxy-Desktop',
             submenu: [
                 {
-                    label: 'Show Home',
+                    label: 'Home',
                     click: openMainWindow,
                 },
                 {
@@ -68,36 +75,20 @@ function createMenu(){
                         })
                     },
                 },
-                {
-                    label:'View License',
-                    click() { 
-                        shell.openExternal('https://github.com/k8-proxy/k8-proxy-desktop/blob/master/LICENSE')
-                    } 
-                },
-                {
-                    label:'Check For Update',
-                    click: async (): Promise<void> => {
-                        const { response } = await dialog.showMessageBox({
-                        message: `Check For Update`,
-                        detail: `Soon will rollout this feature`,
-                        buttons: [ `Ok`],
-                        defaultId: 1,
-                        type: `info`,
-                        })
-                    },
-                },
-                {
-                    label:'Version 0.2.0'
-                },
+                // {
+                //     label:'Check For Update',
+                //     click: async (): Promise<void> => {
+                //         const { response } = await dialog.showMessageBox({
+                //         message: `Check For Update`,
+                //         detail: `Soon will rollout this feature`,
+                //         buttons: [ `Ok`],
+                //         defaultId: 1,
+                //         type: `info`,
+                //         })
+                //     },
+                // },
                 {
                     type:'separator'
-                },
-                {
-                    label:'Report an issue',
-                    click() { 
-                        shell.openExternal('https://github.com/k8-proxy/k8-proxy-desktop/issues/new')
-                    } ,
-                    accelerator: 'CmdOrCtrl+Shift+I'
                 },
                 {
                     type:'separator'
@@ -155,12 +146,13 @@ function makeWindow(): typeof BrowserWindow {
             nodeIntegration: true,
             webSecurity: false,
             allowDisplayingInsecureContent: true,
-            allowRunningInsecureContent: true
+            allowRunningInsecureContent: true,
+            enableRemoteModule: true
         }
     })
    
     //to add chrome dev tools 
-    //window.webContents.openDevTools();
+    window.webContents.openDevTools();
     return window;
 }
 
@@ -213,3 +205,43 @@ app.on('activate', () => {
   }
 })
 
+
+ipcMain.on('app_version', (event:any) => {
+  event.sender.send('app_version', { version: app.getVersion() });
+});
+
+
+autoUpdater.on('update-available', () => {
+  log.info("Update available");
+  mainWindow.webContents.send('update_available');
+});
+
+autoUpdater.on('update-downloaded', () => {
+    log.info('update download')
+  mainWindow.webContents.send('update_downloaded');
+});
+
+autoUpdater.on('checking-for-update', () => {
+    log.info('checking for update')
+    mainWindow.webContents.send('checking-for-update');
+});
+
+autoUpdater.on('error', (err:any) => {
+    log.info('Error checking for update')
+    log.info(err)
+    log.info(err.stack)
+});
+
+autoUpdater.on('update-not-available', () => {
+    log.info('update-not-available')
+    mainWindow.webContents.send('update-not-available');
+});
+
+ipcMain.on('restart_app', () => {
+  autoUpdater.quitAndInstall();
+});
+
+setInterval(() => {
+    log.info('Checking for updates')
+  autoUpdater.checkForUpdatesAndNotify()
+}, 60000)

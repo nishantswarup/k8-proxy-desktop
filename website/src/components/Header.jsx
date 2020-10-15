@@ -8,10 +8,10 @@ export default function Loader() {
       <div className="header-content">
         <div className="container">
           <div className="row">
-            <div className="col-lg-12">
+            <div className="col-lg-7">
               <div className="text-container">
                 <h1>
-                  K8 Proxy Desktop Application <br />
+                   K8 Proxy Desktop Application <br />
                   FOR{" "}
                   <span id="js-rotating">
                     GIT BROWSER, FILE DROP, K8 PODS DASHBOARD, SLACK UI FOR BOTS, FORENSIC WORKBENCH
@@ -40,9 +40,7 @@ export default function Loader() {
                 </a>
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-lg-12">
+            <div className="col-lg-5">
               <div className="image-container">
                 <img
                   className ="img-fluid"
@@ -51,6 +49,17 @@ export default function Loader() {
                 />
               </div>
             </div>
+          </div>
+          <div className="row">
+            {/* <div className="col-lg-12">
+              <div className="image-container">
+                <img
+                  className ="img-fluid"
+                  src       ={headerLens}
+                  alt       ="alternative"
+                />
+              </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import multiClusterManagement     from '../images/multi-cluster-management.svg';
 
 export default function Feature2() {
   return (
-    <div className="basic-3">
+    <div className="basic-5">
       <div className="third">
         <div className="container">
           <div className="row">

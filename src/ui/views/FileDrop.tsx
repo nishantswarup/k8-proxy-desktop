@@ -1,54 +1,58 @@
 import * as React               from 'react';
-import { Container, Grid }      from '@material-ui/core';
 import { makeStyles }           from '@material-ui/core/styles';
-import      Header              from '../components/Header'
-import      Sidebar             from '../components/SideBar'
 import WebIFrameView            from '../components/WebIFrameView'
 import { useState, useEffect }  from 'react';
 import Loader                   from '../components/Loader';
+import Footer                   from '../components/Footer';
+import FileDropSampleFiles      from './FileDropSampleFiles';
+import * as Utils               from '../utils/utils';
+import SideDrawer               from '../components/SideDrawer';
 
-/** Main view of the application to display all the targeted use cases */
+
 const useStyles = makeStyles((theme) => ({
-     root:       {
-         flexGrow:       1, 
-     },
-     fullWidth:{
-         maxWidth:       '100%'
-     },
-     container:  {
-         display:        'grid',
-         gridGap:        theme.spacing(2),
+     root:  {         
+         display:        'flex',
      },
     gridItemRight:{
+        position:        'relative'
     },
     gridItemLeft:{
+    },
+    toolbar: {
+        display:        'flex',
+        alignItems:     'center',
+        justifyContent: 'flex-end',
+        padding:        theme.spacing(0, 1),
+        ...theme.mixins.toolbar,
+    },
+    content: {
+        flexGrow:       1,
+    },
+    contentArea:{
+         minHeight:      '81vh',
+         padding:        theme.spacing(3),
     }
   }));
 
 function FileDrop (){
-    const classes = useStyles();
-    
-    const [showLoader, setShowLoader] = useState(true);
-  
+    const classes = useStyles();    
+    const [showLoader, setShowLoader] = useState(true);  
     useEffect(() => {
       setTimeout(() => { setShowLoader(false);},500);
     }, []); 
 
     return(
-        <div>     
-            <Header showBack={false} ></Header>            
-            <Container className={classes.fullWidth}>              
-                <Grid container spacing={2}>
-                    <Grid item xs={3} className={classes.gridItemLeft}>
-                        <Sidebar></Sidebar>
-                    </Grid>
-                    <Grid item xs={9} className={classes.gridItemRight}>
+        <div className={classes.root}>        
+            <SideDrawer showBack={false}/>
+            <main className={classes.content}>
+                <div className={classes.toolbar} />
+                <div className={classes.contentArea}>
+                    <FileDropSampleFiles/>
                     {showLoader  && <Loader/> }  
-                     <WebIFrameView url = "https://file-drop.co.uk/" />
-                    </Grid>
-                </Grid>
-
-            </Container>
+                    <WebIFrameView url = {Utils.FILE_DROP_URL} />
+                </div>                    
+                <Footer/>
+            </main>
         </div>
     )
 }

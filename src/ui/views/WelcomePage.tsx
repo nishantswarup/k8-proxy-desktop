@@ -4,13 +4,20 @@ import { makeStyles }           from '@material-ui/core/styles';
 import logo                     from '../assets/images/GWWelcomeLogo.jpg'
 import ReleaseNote              from './ReleaseNote'
 import { Link}                  from 'react-router-dom'
+import                          '../assets/style/style.css'
+import * as Utils               from '../utils/utils'
+import Footer                   from '../components/Footer';
+
+
+const { ipcRenderer } = require('electron');
 
 const useStyles = makeStyles((theme) => ({
     root:       {
         flexGrow:       1, 
     },
     fullWidth:{
-        maxWidth:       '100%'
+        maxWidth:       '100%',
+        paddingBottom:   '50px'
     },
     container:  {
         display:        'grid',
@@ -18,12 +25,13 @@ const useStyles = makeStyles((theme) => ({
         fontFamily:     'Nunito Sans'
     },
    gridItemRight:{
-       borderLeft:     '1px solid #ccc',
-       padding:         '15px!important'
+       borderLeft:      '1px solid #ccc',
+       padding:         '15px!important',
+       boxShadow:       '-4px 3px 11px #ccc'
    },
    gridItemLeft:{
         textAlign:       'center',
-        padding:         '15px!important'
+        padding:         '50px 15px 15px 15px!important'
    },
    welcomeTxt:{
         color:           '#0c3350',
@@ -63,31 +71,9 @@ const useStyles = makeStyles((theme) => ({
         borderRadius:    '3px',
         cursor:          'pointer',
         display:         'inline-block',
-        textDecoration:  'none'
-   },
-   dwWindowBtn:{
-        fontFamily:      'Nunito Sans',
-        border:          '2px solid #47848f',
-        padding:         '8px 20px',
-        borderRadius:    '1px',
-        color:           '#47848f',
-        minWidth:        '225px',
-        margin:          '20px 0',
-        cursor:          'pointer',
-        display:         'inline-block',
-        textDecoration:  'none'
-   },
-   dwMacBtn:{
-        fontFamily:      'Nunito Sans',
-        fontWeight:      'bold',        
-        border:          'none',
-        color:           '#6a6a6a',
-        marginBottom:    '20px',
-        fontSize:        '17px',
-        cursor:          'pointer',
-        display:         'inline-block',
-        textDecoration:  'none'
-   },
+        textDecoration:  'none',
+        margin:          '20px 0'
+   },   
    termsCondition:{
         fontFamily:      'Nunito Sans',
         fontSize:        '14px',
@@ -105,38 +91,51 @@ const useStyles = makeStyles((theme) => ({
 
 function WelcomePage(){
     const classes = useStyles(); 
-    //const [value, setValue] = React.useState(false);
-    // const getStarted = () =>{
-    //     localStorage.setItem('test', value);
-    // }
+    const [version, setVersion] = React.useState("0.1")
+    
+    const getVersion = () =>{   
+        ipcRenderer.send('app_version');
+        console.log("Added version element");
+        ipcRenderer.on('app_version', (event:any, arg:any) => {
+            setVersion(arg.version);
+        });
+       }
+
+    React.useEffect(() => {
+        getVersion()     
+      }, []);
+
+
+    const getStarted =()=>{
+        console.log("localStorage" + localStorage.getItem(Utils.WELCOME_PAGE_VISTIED_KEY));
+        localStorage.setItem(Utils.WELCOME_PAGE_VISTIED_KEY, Utils.WELCOME_PAGE_VISTIED_VAL);
+    }
     return(
         <div>                
-        <Container className={classes.fullWidth}>              
-            <Grid container spacing={2}>
-                <Grid item xs={9} className={classes.gridItemLeft}>
-                    <h2 className={classes.welcomeTxt}>Welcome to K8 Proxy Desktop</h2>
-                    <div className={classes.logo}>
-                         <img src={logo} className={classes.logoImg}></img>
-                         <h2 className={classes.heading}>K8 Proxy Desktop</h2>
-                         <h6 className={classes.version}>0.2.0</h6>
-                         <p className={classes.abtContent}>k8-proxy-desktop is a desktop based applications that provides a single entry point to all K8 projects. Build with Electron , react, it is aimed at providing a single window integration with GW git resources, file-drop, forensic-workbench, jupyter notebooks, and K8-* services. It is a standalone application for MacOS, Windows and Linux operating systems.</p>
-                    </div>
-                    <div className={classes.btnGroup}>
-                        <div> </div><Link to="/home" className={classes.getStartBtn}>Get Started</Link>
-                        <a href="https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.2.0/k8-proxy-desktop.exe.zip" className={classes.dwWindowBtn}>Download for windows</a>
-                        <a href="https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.2.0/k8-proxy-desktop.dmg.zip" className={classes.dwMacBtn}>Download for <span className={classes.colorGreen}>MacOS</span></a>
-                    </div>
-                    <footer>
-                        <p className={classes.termsCondition}>By Downloading, you agree to the <a href="https://github.com/rajmbcoderx/k8-electron-react/blob/master/LICENSE" className={classes.colorGreen}>Terms and Conditions.</a></p>
-                    </footer>
+            <Container className={classes.fullWidth}>              
+                <Grid container spacing={2}>
+                    <Grid item xs={9} className={classes.gridItemLeft}>
+                        <h2 className={classes.welcomeTxt}>Welcome to Glasswall Proxy Desktop</h2>
+                        <div className={classes.logo}>
+                            <img src={logo} className={classes.logoImg}></img>
+                            <h2 className={classes.heading}>Glasswall Proxy Desktop</h2>
+                            <h6 className={classes.version}>{version}</h6>
+                            <p className={classes.abtContent}>Glasswall proxy desktop is a desktop based applications that provide multi file drag and drop rebuild workflow.</p>
+                        </div>
+                        <div onClick={getStarted} className={classes.btnGroup}>
+                            <Link to="/rebuildFiles" className={classes.getStartBtn}>Get Started</Link>                        
+                        </div>
+                        <footer>
+                            <p className={classes.termsCondition}>Agree to the <a href={Utils.LICENSE_URL} className={classes.colorGreen}>Terms and Conditions.</a></p>
+                        </footer>
+                    </Grid>
+                    <Grid item xs={3} className={classes.gridItemRight}>
+                        <ReleaseNote/>
+                    </Grid>
                 </Grid>
-                <Grid item xs={3} className={classes.gridItemRight}>
-                    <ReleaseNote/>
-                </Grid>
-            </Grid>
-
-        </Container>
-    </div>
+            </Container>
+            <Footer/>
+        </div>
         
     )
 }

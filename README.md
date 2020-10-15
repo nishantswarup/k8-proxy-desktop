@@ -31,7 +31,7 @@ Warning: This software is under active development. Use at your own risk.
 
 ### macOS
 
-Download the latest [k8-proxy-desktop release](https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.2.0/k8-proxy-desktop.dmg.zip).
+Download the latest [k8-proxy-desktop release](https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.5.0/k8-proxy-desktop.dmg.zip).
 
 Mac users will need to follow the below steps on the app when you first launch it, until we have [code signing](https://www.electron.build/code-signing) set up
 
@@ -53,7 +53,7 @@ TBD: Will automatically update when a new release is available.
 
 ### Windows
 
-Download the latest [k8-proxy-desktop relase](https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.2.0/k8-proxy-desktop.exe.zip).
+Download the latest [k8-proxy-desktop relase](https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.5.0/k8-proxy-desktop.exe.zip).
 
 TBD: will automatically update when a new release is available.
 
@@ -61,7 +61,33 @@ TBD: will automatically update when a new release is available.
 ### Linux Snap
 
 k8-proxy-desktop is only available for 64-bit Linux systems.
-Download the latest [k8-proxy-desktop relase](https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.2.0/k8-proxy-desktop.snap.zip).
+Download the latest [k8-proxy-desktop relase](https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.5.0/k8-proxy-desktop.snap.zip).
+
+Linux/Ubuntu users will need to follow the below steps on the app when you first launch it.
+
+<p>Step 1</p>
+Install the snapd package if not present in the linux/ubuntu version you are using.
+
+![k8-proxy-desktop Screenshot](https://raw.githubusercontent.com/rajmbcoderx/k8-electron-react/master/Linux_Snap_Install_Command.JPG)
+
+
+<p>Step 2</p>
+Once snapd package has been installed verify it has been installed successfully by running below command.
+
+![k8-proxy-desktop Screenshot](https://raw.githubusercontent.com/rajmbcoderx/k8-electron-react/master/Linux_SnapPackage_Verification_Command.JPG)
+
+
+<p>Step 3</p>
+Unzip the downloaded desktop package and move inside the directory. And run below command to install the package
+
+![k8-proxy-desktop Screenshot2](https://raw.githubusercontent.com/rajmbcoderx/k8-electron-react/master/Linux_DesktopApp_Install_Command.JPG)
+
+
+<p>Step 4</p>
+Run below command to launch the desktop application
+
+![k8-proxy-desktop Screenshot](https://raw.githubusercontent.com/rajmbcoderx/k8-electron-react/master/Linux_DesktopApp_Run_Command.JPG)
+
 
 ### Installing from source
 
