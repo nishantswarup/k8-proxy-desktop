@@ -152,7 +152,7 @@ function makeWindow(): typeof BrowserWindow {
     })
    
     //to add chrome dev tools 
-    window.webContents.openDevTools();
+    //window.webContents.openDevTools();
     return window;
 }
 
