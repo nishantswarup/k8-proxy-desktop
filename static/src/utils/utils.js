@@ -2,13 +2,16 @@ import packageJson from '../../package.json';
 console.log("package" + packageJson.owner); // 
 
 export const  MAC_BUILD     =  "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + 
-                               "/releases/download/"+ packageJson.version + "/" + packageJson.app_name + ".dmg.zip"
+                               "/releases/download/"+ packageJson.tagVersion + "/" + packageJson.app_name + "-" 
+                               + packageJson.version +".dmg"
 
 export const  WINDOWS_BUILD =  "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + 
-                                "/releases/download/"+ packageJson.version + "/" + packageJson.app_name + ".exe.zip"
+                                "/releases/download/"+ packageJson.tagVersion + "/" + packageJson.app_name 
+                                + "-Setup-" + packageJson.version + ".exe"
 
 export const  LINUX_BUILD   =   "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + 
-                                "/releases/download/"+ packageJson.version + "/" + packageJson.app_name + ".snap.zip"
+                                "/releases/download/"+ packageJson.tagVersion + "/" + packageJson.app_name
+                                 +  + packageJson.version + ".snap.zip"
 export const  RELEASE_URL   =   "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + "/releases/";
 
 export let getOS = () =>{
