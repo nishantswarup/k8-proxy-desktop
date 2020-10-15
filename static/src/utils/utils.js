@@ -10,8 +10,9 @@ export const  WINDOWS_BUILD =  "https://github.com/" + packageJson.repo_owner + 
                                 + "-Setup-" + packageJson.version + ".exe"
 
 export const  LINUX_BUILD   =   "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + 
-                                "/releases/download/"+ packageJson.tagVersion + "/" + packageJson.app_name
+                                "/releases/download/"+ packageJson.tagVersion + "/" + packageJson.app_name + "-" 
                                  +  packageJson.version + ".snap"
+console.log("LINUX_BUILD" + LINUX_BUILD)                              
 export const  RELEASE_URL   =   "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + "/releases/";
 
 export let getOS = () =>{
