@@ -3,12 +3,17 @@ import { makeStyles }           from '@material-ui/core/styles';
 import                          '../assets/style/style.css'
 import * as Utils               from '../utils/utils'
 
+const { ipcRenderer } = require('electron');
+
+
 const useStyles = makeStyles((theme) => ({
     root:       {
         flexGrow:       1, 
     },
-    footerNav:{
+    footerNav:{        
+        background:         '#0c3451',
         float:              'right',
+        position:           'relative',
         width:              '100%',
         textAlign:          'center',
         bottom:             '0',
@@ -16,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
             padding:        '0 30px 0 0',
             margin:         '0',
             display:        'flex',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            listStyle:      'none'
         }
     },
     footerNavItem:{
@@ -24,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
         position:           'relative',
         float:              'left',
         padding:            '10px 10px',
+        color:              '#fff',
     },
     subnNav:{
         display:            'none',
@@ -37,8 +44,7 @@ const useStyles = makeStyles((theme) => ({
         border:             'none',           
         fontSize:           '13px',
         cursor:             'pointer',
-        color:              '#0c3451',
-        textDecoration:     'none',
+        color:              '#fff',
         '&:focus':{
             border:         '0',
             outline:        '0'
@@ -58,14 +64,17 @@ const useStyles = makeStyles((theme) => ({
         
     }, 
     version:{
-        fontSize:           '12px'
+        padding:            '14px',
+        position:           'absolute',
+        right:              '0',
+        color:              '#fff',
+        fontSize:           '10px'
     },
     copyrightText:{
-        padding:            '10px',
-        width:              '100%',
+        padding:            '13px 10px',
+        //width:              '100%',
         textAlign:          'center',
         fontSize:           '11px',
-        background:         '#0c3451',
         float:              'left',
         boxSizing:          'border-box',
         color:              '#fff',
@@ -74,19 +83,41 @@ const useStyles = makeStyles((theme) => ({
  }));
  
 
+
+
+
 function Footer(){
     const classes = useStyles(); 
+    const [version, setVersion] = React.useState("0.1")    
+
+    const getVersion = () =>{   
+        ipcRenderer.send('app_version');
+        ipcRenderer.on('app_version', (event:any, arg:any) => {
+          console.log("app_version callback "+arg.version);
+            console.log('New Version ' + arg.version)
+            setVersion(arg.version)
+        });
+       
+       }
+
+    React.useEffect(() => {
+        getVersion()     
+      }, []);
+      
+
    return(
     <div className={classes.footerNav}>                
         <ul>
+              
+            <li>
+                <span className={classes.copyrightText}>© Copyright 2020 - Glasswall Solutions Ltd. All Rights Reserved</span>
+            </li>
             <li className={classes.footerNavItem}> 
                 <a className={classes.navBtn} href={Utils.LICENSE_URL}> View License</a>
             </li>
-            <li className={classes.footerNavItem}> 
-                <span className={classes.version}> Version {Utils.VERSION}</span>
-            </li>   
+            <li className={classes.version}> v {version} </li> 
         </ul>
-        <span className={classes.copyrightText}>© Copyright 2020 - Glasswall Solutions Ltd. All Rights Reserved</span>
+        
     </div>        
     )
 }

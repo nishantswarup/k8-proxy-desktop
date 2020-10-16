@@ -147,8 +147,8 @@ const useStyles = makeStyles((theme) => ({
         flexGrow:       1,
     },
     contentArea:{
-         minHeight:      '81vh',
-         padding:        theme.spacing(3),
+         minHeight:                 '85.7vh',
+         padding:                   theme.spacing(3),
     },
      downloadLink:{
         maxWidth:                   '245px',
@@ -578,14 +578,14 @@ function RebuildFiles(){
 
             //console.log(acceptedFiles[0].path)
             acceptedFiles.map(async (file: File) => {
-                await FileUploadUtils.getFile(file).then((data: any) => {
+                await FileUploadUtils.getFile(file).then(async (data: any) => {
                     setFileNames((fileNames: any) =>[...fileNames, file.name]);
                     var url = window.webkitURL.createObjectURL(file);
                     let guid: string;
                     guid =  Utils.guid();
-                    Utils.sleep(100);
-                    FileUploadUtils.makeRequest(data, url, guid, outputDirId, downloadResult);
                     setShowLoader(true);
+                    Utils.sleep(800);
+                    await FileUploadUtils.makeRequest(data, url, guid, outputDirId, downloadResult);
                 })
             })
         }

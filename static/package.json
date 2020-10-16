@@ -1,8 +1,12 @@
 {
-  "name": "k8-electron-react",
-  "version": "0.1.0",
+  "name": "k8-proxy-desktop",
+  "version": "0.6.0",
+  "tagVersion": "v0.6.0",
+  "repo": "k8-proxy-desktop",
+  "repo_owner": "k8-proxy",
+  "app_name":"k8-proxy-desktop",
   "private": true,
-  "homepage": "https://rajmbcoderx.github.io/k8-electron-react",
+  "homepage": "https://k8-proxy.github.io/k8-proxy-desktop",
   "devDependencies": {
     "webpack": "4.42.0",
     "@testing-library/jest-dom": "^4.2.4",

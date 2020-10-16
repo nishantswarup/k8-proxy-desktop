@@ -4,13 +4,19 @@ const {
     WebContents,
     Certificate,
     Menu,
-    Tray }          = require('electron');
-const remote = app.remote;
-const path          = require('path')
-const shell         = require('electron').shell
-const { dialog }    = require('electron')
-const dir           = path.resolve(__dirname, `..`)
+    Tray,
+    ipcMain}                = require('electron');
+const remote                = app.remote;
+const path                  = require('path')
+const shell                 = require('electron').shell
+const { dialog }            = require('electron')
+const dir                   = path.resolve(__dirname, `..`)
+const { autoUpdater }       = require('electron-updater');
+const log                   = require('electron-log');
 
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'debug';
+log.info('App starting...');
 
 // function makeTray(){
 //     const tray = new Tray(path.resolve(dir, `assets`, `IconTemplate.png`))
@@ -48,7 +54,7 @@ function createMenu(){
             label: 'Desktop'
         },
         {
-            label: 'K8-Proxy-Desktop',
+            label: 'Glasswall Proxy Desktop',
             submenu: [
                 {
                     label: 'Home',
@@ -58,29 +64,29 @@ function createMenu(){
                     type:'separator'
                 }, 
                 {
-                    label:'About k8 Proxy Desktop',
+                    label:'About Glasswall Proxy Desktop',
                     click: async (): Promise<void> => {
                         const { response } = await dialog.showMessageBox({
-                        message: `About K8 Proxy Desktop`,
-                        detail: ` K8 Proxy desktop  applications that provides a single entry point to all K8 projects. Build with electron and react, it is aimed at providing a single window integration with GW git resources, file-drop, forensic-workbench, jupyter notebooks, and K8-* services.`,
+                        message: `About Glasswall Proxy Desktop`,
+                        detail: ` Glasswall proxy desktop is a desktop based applications that provide multi file drag and drop rebuild workflow.`,
                         buttons: [ `Ok`],
                         defaultId: 1,
                         type: `info`,
                         })
                     },
                 },
-                {
-                    label:'Check For Update',
-                    click: async (): Promise<void> => {
-                        const { response } = await dialog.showMessageBox({
-                        message: `Check For Update`,
-                        detail: `Soon will rollout this feature`,
-                        buttons: [ `Ok`],
-                        defaultId: 1,
-                        type: `info`,
-                        })
-                    },
-                },
+                // {
+                //     label:'Check For Update',
+                //     click: async (): Promise<void> => {
+                //         const { response } = await dialog.showMessageBox({
+                //         message: `Check For Update`,
+                //         detail: `Soon will rollout this feature`,
+                //         buttons: [ `Ok`],
+                //         defaultId: 1,
+                //         type: `info`,
+                //         })
+                //     },
+                // },
                 {
                     type:'separator'
                 },
@@ -92,7 +98,7 @@ function createMenu(){
                     click: async (): Promise<void> => {
                         //openMainWindow()
                         const { response } = await dialog.showMessageBox({
-                        message: `Quit K8 Proxy Desktop?`,
+                        message: `Quit Glasswall Proxy Desktop?`,
                         detail: `This will stop all running sites`,
                         buttons: [`Cancel`, `Quit`],
                         defaultId: 1,
@@ -199,3 +205,43 @@ app.on('activate', () => {
   }
 })
 
+
+ipcMain.on('app_version', (event:any) => {
+  event.sender.send('app_version', { version: app.getVersion() });
+});
+
+
+autoUpdater.on('update-available', () => {
+  log.info("Update available");
+  mainWindow.webContents.send('update_available');
+});
+
+autoUpdater.on('update-downloaded', () => {
+    log.info('update download')
+  mainWindow.webContents.send('update_downloaded');
+});
+
+autoUpdater.on('checking-for-update', () => {
+    log.info('checking for update')
+    mainWindow.webContents.send('checking-for-update');
+});
+
+autoUpdater.on('error', (err:any) => {
+    log.info('Error checking for update')
+    log.info(err)
+    log.info(err.stack)
+});
+
+autoUpdater.on('update-not-available', () => {
+    log.info('update-not-available')
+    mainWindow.webContents.send('update-not-available');
+});
+
+ipcMain.on('restart_app', () => {
+  autoUpdater.quitAndInstall();
+});
+
+setInterval(() => {
+    log.info('Checking for updates')
+  autoUpdater.checkForUpdatesAndNotify()
+}, 60000)

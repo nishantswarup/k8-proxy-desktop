@@ -2,6 +2,7 @@ import axios        from "axios";
 import axiosRetry   from 'axios-retry';
 import * as Utils   from '../utils/utils'
 
+const NUM_RETRIES = 5;
 
 const getPayload = (data: any) => {
     let buffer = Buffer.from(data.content, 'base64');
@@ -76,13 +77,16 @@ const getBase64 = (file: File) => {
    return res;
 }
 
-export const makeRequest = (request: any, sourceFileUrl: string, requestId: string, folderId: string,
+export const makeRequest = async (request: any, sourceFileUrl: string, requestId: string, folderId: string,
       resultCallback: Function) => {
-
-    axiosRetry(axios, { retries: 5 , retryDelay: (retryCount) => {
-        console.log("http axiosRetry")
-        return retryCount * 5000;
-        }});
+      /*axiosRetry(axios, { retries: 5 , retryDelay: (retryCount) => {
+        console.log("http axiosRetry retryCount = "+retryCount)
+        return 2000;
+        },
+        retryCondition: (error:any) => {
+          return error.response.status === 429;
+        }
+        });*/
 
     let payload: string | any;
     let url : string;
@@ -90,12 +94,58 @@ export const makeRequest = (request: any, sourceFileUrl: string, requestId: stri
 
     payload = getPayload(request)
     var fileSize = payload.fileSize;
-   
+
+    // Files smaller than 6MB - Normal
+    payload = JSON.stringify(payload)
+    let retries = NUM_RETRIES
+    if(fileSize < 6){
+
+        return await axios.post(url, payload, {
+                headers: {
+                    "x-api-key": Utils.REBUILD_API_KEY,
+                    "Content-Type": "application/json"
+                }
+            })
+        .then(async (response) => {
+            if(response.status === 200){
+                await getAnalysisResult(false, response.data, request, sourceFileUrl, requestId, folderId, resultCallback);
+            }
+        })
+        .catch(async err => {
+            console.log("3:" + JSON.stringify(err));
+            if(err.message.indexOf('422') > -1){
+                resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
+             msg:'File of this type cannot be processed - '+err.message, id:requestId, targetDir:folderId, original:request.content})
+            }
+            else{
+                resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
+                  msg:err.message, id:requestId, targetDir:folderId, original:request.content})
+            }
+        }
+
+        )
+    }
+    else{
+        resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
+             msg:'File too big. 4 bytes to 6 MB file size bracket', id:requestId, targetDir:folderId, original:request.content})
+    }
+}
+
+export const retry = async (request: any, sourceFileUrl: string, requestId: string, folderId: string,
+      resultCallback: Function) => {
+
+    let payload: string | any;
+    let url : string;
+    url = Utils.REBUILD_ENGINE_URL;
+
+    payload = getPayload(request)
+    var fileSize = payload.fileSize;
+
     // Files smaller than 6MB - Normal
     payload = JSON.stringify(payload)
     if(fileSize < 6){
-        //console.log(payload)
-        return axios.post(url, payload, {
+
+        return await axios.post(url, payload, {
                 headers: {
                     "x-api-key": Utils.REBUILD_API_KEY,
                     "Content-Type": "application/json"
@@ -107,58 +157,20 @@ export const makeRequest = (request: any, sourceFileUrl: string, requestId: stri
             }
         })
         .catch(err => {
-            console.log("3:" + JSON.stringify(err));
             resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
               msg:err.message, id:requestId, targetDir:folderId, original:request.content})
-        })
-    }
-    // 6 to 30 MB - S3 Presigned
-    else if(fileSize < 30){
-        axios.post(url+'uploadLocal', getLocalUpload(request), {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-        .then((response) => {
-            axios.post(url+'processFile', {"FileName": request.original_file_name}, {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            .then((response) => {
-                if(response.status === 200){
-                    return axios.get(url+'getFilePath', {
-                        params: {
-                            FileName: request.original_file_name
-                        }
-                    })
-                    .then((response) => {
-                        console.log('Retrieved file:' + response.data)
-                        getAnalysisResult(true, response.data, request, sourceFileUrl, requestId, folderId, resultCallback);
-                    });
-            }
-            })
-        .catch(err => {
-            resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
-              msg:err.message, id:requestId, targetDir:folderId, original:request.content})
-        })
-        })
-        .catch(err => {
-            resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
-            msg:err.message, id:requestId, targetDir:folderId, original:request.content})
         })
     }
     else{
         resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
-         msg:'File too big. 4 bytes to 30 MB file size bracket', id:requestId, targetDir:folderId, original:request.content})
-
+             msg:'File too big. 4 bytes to 6 MB file size bracket', id:requestId, targetDir:folderId, original:request.content})
     }
- 
-};
+}
+
 
 export const getAnalysisResult= async (isBinaryFile: boolean, reBuildResponse: any, request: any, sourceFile: string,
      requestId: string, targetFolder: string, resultCallback: Function)=>{
-   
+
     let payload: string | any;
     let url : string;
     url = Utils.REBUILD_ANALYSIS_URL;
@@ -167,10 +179,10 @@ export const getAnalysisResult= async (isBinaryFile: boolean, reBuildResponse: a
     var fileSize = payload.fileSize;
     // Files smaller than 6MB - Normal
     payload = JSON.stringify(payload)
-    Utils.sleep(100);
+    Utils.sleep(500);
 
     if(fileSize < 6){
-        return  axios.post(url, payload, {
+        return await axios.post(url, payload, {
                 headers: {
                     "x-api-key": Utils.REBUILD_API_KEY,
                     "Content-Type": "application/json"
@@ -191,50 +203,6 @@ export const getAnalysisResult= async (isBinaryFile: boolean, reBuildResponse: a
             console.log("11" + err.message);
             resultCallback({'source':sourceFile, 'url':'TBD', 'filename':request.filename, isError:true,
                  msg:err.message, id:requestId, targetDir:targetFolder, original:request.content})
-        })
-    }
-    // 6 to 30 MB - S3 Presigned
-    else if(fileSize < 30){
-        axios.post(url+'uploadLocal', getLocalUpload(request), {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-        .then((response) => {
-            axios.post(url+'processFile', {"FileName": request.original_file_name}, {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            .then((response) => {
-                if(response.status === 200){
-                    return axios.get(url+'getFilePath', {
-                        params: {
-                            FileName: request.original_file_name
-                        }
-                    })
-                    .then((response) => {
-                        if(isBinaryFile){
-                            writeBinaryFile(reBuildResponse, response.data, request, sourceFile, requestId,
-                                 targetFolder, resultCallback)
-                       }else{
-                            writeDecodedBase64File(reBuildResponse, response.data, request, sourceFile,
-                                 requestId, targetFolder, resultCallback)
-                       }
-             
-                    });
-            }
-            })
-        .catch(err => {
-            //console.log("22" + err.message);
-            resultCallback({'source':sourceFile, 'url':'TBD', 'filename':request.filename, isError:true,
-                 msg:err.message, id:requestId, targetDir:targetFolder, original:request.content})
-        })
-        })
-        .catch(err => {
-            //console.log("33" + err.message);
-            resultCallback({'source':sourceFile, 'url':'TBD', 'filename':request.filename, isError:true,
-                 msg:err.message, id:requestId, targetDir: targetFolder, original:request.content})
         })
     }
     else{

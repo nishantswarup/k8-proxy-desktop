@@ -1,49 +1,57 @@
 
-export const WEBSITE_URL            = 'https://rajmbcoderx.github.io/k8-electron-react/';
-export const RELEASE_URL            = 'https://github.com/rajmbcoderx/k8-electron-react/releases/tag/0.4.0';
-export const LICENSE_URL            = 'https://github.com/k8-proxy/k8-proxy-desktop/blob/master/LICENSE';
-export const FW_URL                 = 'https://forensic-workbench.com/';
-export const FILE_DROP_URL          = 'https://file-drop.co.uk/';
-export const REBUILD_ENGINE_URL     = 'https://8oiyjy8w63.execute-api.us-west-2.amazonaws.com/Prod/api/rebuild/base64';
-export const REBUILD_ANALYSIS_URL   = 'https://o7ymnow6vf.execute-api.us-west-2.amazonaws.com/Prod/api/Analyse/base64';
-export const REPO_GIT_ISSUE_URL     = "https://github.com/k8-proxy/k8-proxy-desktop/issues/new";
+export const WEBSITE_URL                = 'https://rajmbcoderx.github.io/k8-electron-react/';
+export const RELEASE_URL                = 'https://github.com/rajmbcoderx/k8-electron-react/releases/tag/0.4.0';
+export const LICENSE_URL                = 'https://github.com/k8-proxy/k8-proxy-desktop/blob/master/LICENSE';
+export const FW_URL                     = 'https://forensic-workbench.com/';
+export const FILE_DROP_URL              = 'https://file-drop.co.uk/';
+export const REBUILD_ENGINE_URL         = 'https://8oiyjy8w63.execute-api.us-west-2.amazonaws.com/Prod/api/rebuild/base64';
+export const REBUILD_ANALYSIS_URL       = 'https://o7ymnow6vf.execute-api.us-west-2.amazonaws.com/Prod/api/Analyse/base64';
+export const REPO_GIT_ISSUE_URL         = "https://github.com/k8-proxy/k8-proxy-desktop/issues/new";
 
-export const REBUILD_API_KEY        = 'dp2Ug1jtEh4xxFHpJBfWn9V7fKB3yVcv60lhwOAG';
-export const VERSION                = '0.5.0'
-export const _PROCESSED_FOLDER      = "./processed/"
-export const _CLEAN_FOLDER          = "clean/"
-export const _ORIGINAL_FOLDER       = "original/"
-export const _REPORT_FOLDER         = "report/"
+export const REBUILD_API_KEY            = 'dp2Ug1jtEh4xxFHpJBfWn9V7fKB3yVcv60lhwOAG';
+export const VERSION                    = '0.5.0'
+export const _PROCESSED_FOLDER          = "./processed/"
+export const _CLEAN_FOLDER              = "clean/"
+export const _ORIGINAL_FOLDER           = "original/"
+export const _REPORT_FOLDER             = "report/"
 
-export const OUTPUT_DIR_FLAT        = "flat";
-export const OUTPUT_DIR_HIERARCY    = "hierarcy";
+export const OUTPUT_DIR_FLAT            = "flat";
+export const OUTPUT_DIR_HIERARCY        = "hierarcy";
+
+export const WELCOME_PAGE_VISTIED_KEY   = "visited"
+export const WELCOME_PAGE_VISTIED_VAL   = "yes"
 
 export const RELEAE_NOTES           =[
                                         {
-                                          "date":"October 8th 2020",
-                                          "desc":"Rebuild Output (tmp) directory structure need to be modified."
+                                          "date":"October 15th 2020",
+                                          "desc":"On uploading multiple files in the app at once, the rebuild api give 429 (TooManyRequests)."
                                         }, 
                                         {
-                                          "date":"October 7th 2020",
-                                          "desc":"An option to user to select custom location for saving rebuild files."
+                                          "date":"October 14th 2020",
+                                          "desc":"Solution to install upgrades #30"
                                         },
                                         {
-                                          "date":"October 6th  2020",
-                                          "desc":"Same directory format to be kept for dragged directory post re-build api."
+                                          "date":"October 13th  2020",
+                                          "desc":"Publish a build to Github Release #75"
                                         }, 
                                         {
-                                          "date":"October 5th  2020 ",
-                                          "desc":"Check box to be provided so that user can select to keep existing directory format or flat format."
-                                        }, {
-                                          "date":"October 4th  2020 ",
-                                          "desc":"Current website to be replicated with file drop feature"
+                                          "date":"October 12th  2020 ",
+                                          "desc":" Notification for the updated version. #139"
+                                        },
+                                         {
+                                          "date":"October 12th  2020 ",
+                                          "desc":"Change default landing page from Welcome page to the direct File drop option. #137"
                                         }
                                       ]
 
-export const sleep = (milliseconds:number) => {
+export const sleepDelay = (milliseconds:number) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
-  
+
+  export const sleep = (delay:number) => {
+    var start = new Date().getTime();
+    while (new Date().getTime() < start + delay);
+}
 
   const _p8=(s:boolean) =>{
 

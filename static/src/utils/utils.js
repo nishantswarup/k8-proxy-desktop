@@ -1,9 +1,20 @@
+import packageJson from '../../package.json';
+console.log("package" + packageJson.owner); // 
 
+export const  MAC_BUILD     =  "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + 
+                               "/releases/download/"+ packageJson.tagVersion + "/" + packageJson.app_name + "-" 
+                               + packageJson.version +".dmg"
 
-export const  MAC_BUILD = "https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.5.0/k8-proxy-desktop.dmg.zip"
-export const  WINDOWS_BUILD = "https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.5.0/k8-proxy-desktop.exe.zip"
-export const  LINUX_BUILD ="https://github.com/rajmbcoderx/k8-electron-react/releases/download/0.5.0/k8-proxy-desktop.snap.zip"
-export const  RELEASE_URL = "https://github.com/rajmbcoderx/k8-electron-react/releases/";
+export const  WINDOWS_BUILD =  "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + 
+                                "/releases/download/"+ packageJson.tagVersion + "/" + packageJson.app_name 
+                                + "-Setup-" + packageJson.version + ".exe"
+
+export const  LINUX_BUILD   =   "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + 
+                                "/releases/download/"+ packageJson.tagVersion + "/" + packageJson.app_name + "-" 
+                                 +  packageJson.version + ".snap"
+console.log("LINUX_BUILD" + LINUX_BUILD)                              
+export const  RELEASE_URL   =   "https://github.com/" + packageJson.repo_owner + "/" + packageJson.repo + "/releases/";
+
 export let getOS = () =>{
 
     var userAgent        = window.navigator.userAgent,
