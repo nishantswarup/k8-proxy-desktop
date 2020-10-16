@@ -117,37 +117,6 @@ export const makeRequest = async (request: any, sourceFileUrl: string, requestId
                 resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
              msg:'File of this type cannot be processed - '+err.message, id:requestId, targetDir:folderId, original:request.content})
             }
-            /*else if(err.message.indexOf('429') > -1){
-                if(retries <= 0){
-                    resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
-                        msg:'Please try this file again.Sever overloaded - '+err.message, id:requestId, targetDir:folderId, original:request.content})
-                }
-                else{
-                    while(retries >= 0){
-                        retries = retries-1;
-                        Utils.sleep(1000);
-                        console.log("4: Retrying request " + retries);
-                        await retry(request, sourceFileUrl, requestId, folderId, function cb(result: any){
-                            if(result.isError == true){
-                                if(retries == 0){
-                                    resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
-                                        msg: 'Please try this file again.Sever overloaded - '+err.message,
-                                        id:requestId, targetDir:folderId, original:request.content});
-                                        retries = -1;
-                                }
-                            }
-                            else{
-                                //getAnalysisResult(false, response.data, request, sourceFileUrl, requestId, folderId, resultCallback);
-                                resultCallback({'source':result.sourceFileUrl, 'url':result.url, 'filename':result.request.filename, isError:false, msg:'',
-                                    cleanFile:result.decodedBase64, xmlResult: result.xmlReport, id:result.requestId,
-                                    targetDir:result.targetFolder, original:result.request.content, path:result.request.path});
-                                    retries = -1;
-                            }
-                        });
-                    }
-
-                }
-            }*/
             else{
                 resultCallback({'source':sourceFileUrl, 'url':'TBD', 'filename':request.filename, isError:true,
                   msg:err.message, id:requestId, targetDir:folderId, original:request.content})
@@ -256,60 +225,3 @@ export const getFile = (file: any) => {
     });
 
 }
-
-/*const sendHttpRequest = (url:any ,method:any, body:any, statusAndResponse:any) => {
-    let retries : number;
-    retries = NUM_RETRIES;
-    if(retries -- > 0){
-        let response :  [number, string];
-        response = doRequest(url,method,body,statusAndResponse);
-        if(response[0] == 200){
-            return response[1];
-        }
-        else{
-             setTimeout(() => { console.log("World!"); }, 1000);
-             let response = doRequest(url,method,body,statusAndResponse);
-             if(response[0] == 200){
-                return response[1];
-             }
-        }
-    }
-}*/
-
-/*const doRequest = (url:any ,method:any, body:any, statusAndResponse:any) => {
-	console.log('sendhttpRequest [IN] url - '+url+',method - '+method+', body - '+body);
-    var xmlhttp : any;
-    if (window.XMLHttpRequest){
-        // code for IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp=new XMLHttpRequest();
-    }
-    else{
-        // code for IE6, IE5
-        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange=function(){
-        if (xmlhttp.readyState==4 && (xmlhttp.status==200 || xmlhttp.status==201)){
-            response = xmlhttp.responseText;
-            statusAndResponse[0] = xmlhttp.status;
-            statusAndResponse[1] = response;
-            //console.log('Done. Status '+xmlhttp.status+", "+statusAndResponse[0]+", "+statusAndResponse[1]);
-            return statusAndResponse;
-        }
-        else{
-            statusAndResponse[0] = xmlhttp.status;
-            return statusAndResponse;
-            console.log('Error retrieving URL. Status '+xmlhttp.status+", "+statusAndResponse);
-        }
-    }
-    xmlhttp.open(method,url+'?t='+ Math.random(),false);
-    xmlhttp.crossDomaintrue = true;
-    xmlhttp.setRequestHeader("Content-Type", "application/json");
-    xmlhttp.setRequestHeader("x-api-key", Utils.REBUILD_API_KEY);
-    try{
-        xmlhttp.send(body);
-    }
-    catch(err){
-        console.log(err);
-        console.log(err.stack);
-    }
-}*/
