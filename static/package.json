@@ -3,10 +3,10 @@
   "version": "0.6.0",
   "tagVersion": "v0.6.0",
   "repo": "k8-proxy-desktop",
-  "repo_owner": "gmuditdce",
+  "repo_owner": "k8-proxy",
   "app_name":"k8-proxy-desktop",
   "private": true,
-  "homepage": "https://gmuditdce.github.io/k8-proxy-desktop",
+  "homepage": "https://k8-proxy.github.io/k8-proxy-desktop",
   "devDependencies": {
     "webpack": "4.42.0",
     "@testing-library/jest-dom": "^4.2.4",
